@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "interdimensionallib",
+	"version": "${version}",
+	"name": "InterdimensionalLib",
+	"description": "Just follow the guiding star!",
+	"authors": [
+		"Alex Alabai"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/interdimensionallib/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["ru.alexalabai.interdimensionallib.InterdimensionalLib"],
+		"client": ["ru.alexalabai.interdimensionallib.InterdimensionalLibClient"],
+		"emi": ["ru.alexalabai.interdimensionallib.emi.EmiIntegration"]
+	},
+	"mixins": [
+		"interdimensionallib.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

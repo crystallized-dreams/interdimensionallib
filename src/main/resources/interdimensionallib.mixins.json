@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "ru.alexalabai.interdimensionallib.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "CameraShakeMixin",
+    "ControlsOptionsScreenMixin",
+    "PlayerPoseClientMixin"
+  ],
+  "server": [
+    "PlayerPoseServerMixin"
+  ],
+  "mixins": [
+    "AbstractPressurePlateBlockMixin",
+    "ButtonBlockMixin",
+    "GrindstoneBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
