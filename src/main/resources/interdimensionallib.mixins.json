@@ -13,7 +13,13 @@
   "mixins": [
     "AbstractPressurePlateBlockMixin",
     "ButtonBlockMixin",
-    "GrindstoneBlockMixin"
+    "CustomBlockSetType",
+    "GrindstoneBlockMixin",
+    "LivingEntityMixin",
+    "MerchantEntityMixin",
+    "NoteBlockMixin",
+    "PiglinBrainMixin",
+    "VanillaBiomeParametersMixin"
   ],
   "injectors": {
     "defaultRequire": 1

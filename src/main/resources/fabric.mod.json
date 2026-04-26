@@ -8,8 +8,7 @@
 		"Alex Alabai"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/crystallized-dreams/interdimensionallib"
 	},
 	"license": "MIT",
 	"icon": "assets/interdimensionallib/icon.png",

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.alexalabai.interdimensionallib.common.HelperTags;
 import ru.alexalabai.interdimensionallib.common.ServerCommandHandler;
 import ru.alexalabai.interdimensionallib.config.ModConfig;
 import ru.alexalabai.interdimensionallib.entity.ModEntities;
@@ -25,6 +26,7 @@ public class InterdimensionalLib implements ModInitializer {
 		ModPackets.regAll();
 		ModEntities.regAll();
 		ModRecipes.regAll();
+		HelperTags.regAll();
 		ServerLifecycleEvents.SERVER_STOPPED.register(s->{
 			ModConfig.INSTANCE.save();
 		});

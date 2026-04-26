@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +39,9 @@ public class Utils {
     }
     public static double lerp(double a, double b, double t) {
         return a + t * (b - a);
+    }
+    public static Vec3d lerp(Vec3d a, Vec3d b, double t) {
+        return a.add(b.subtract(a).multiply(t));
     }
     public static float valueNoise(float x, float y, float z) {
         int x0 =(int)Math.floor(x);
