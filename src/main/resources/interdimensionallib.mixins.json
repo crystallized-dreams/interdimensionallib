@@ -3,13 +3,9 @@
   "package": "ru.alexalabai.interdimensionallib.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CameraShakeMixin",
-    "ControlsOptionsScreenMixin",
-    "PlayerPoseClientMixin"
+    "CameraShakeMixin"
   ],
-  "server": [
-    "PlayerPoseServerMixin"
-  ],
+  "server": [ ],
   "mixins": [
     "AbstractPressurePlateBlockMixin",
     "ButtonBlockMixin",

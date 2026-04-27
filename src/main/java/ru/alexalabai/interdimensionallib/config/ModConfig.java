@@ -2,8 +2,6 @@ package ru.alexalabai.interdimensionallib.config;
 
 public class ModConfig {
     public boolean overhaulBlockInteractions = true;
-    public boolean canPlayersSit = true;
-    public boolean canPlayersCrawl = true;
 
     /// FUNCTIONALITY ///
     public static ModConfig INSTANCE = new ModConfig();

@@ -8,9 +8,7 @@ import ru.alexalabai.interdimensionallib.packets.ModPackets;
 
 /*
 * Global Request Interface Packet
-* 1 = Movement State
-* 2 = Sitting enabled
-* 3 = Crawling enabled
+* Currently isn't used.
 */
 public record GRIP(int id) implements CustomPayload {
     public static final Id<GRIP> ID = new Id<>(ModPackets.GRIP_PACKET);

@@ -2,10 +2,7 @@
   "text.interdimensionallib.hint": "Удерживайте %s, чтобы узнать больше",
   "text.interdimensionallib.hide_hint": "Отпустите %s, чтобы скрыть",
 
-  "interdimensionallib.key.click_to_sit": "Сидеть по нажатию",
-  "interdimensionallib.key.crawl": "Ползти",
-  "interdimensionallib.key.sit": "Сесть",
-
-  "text.interdimensionallib.sitting_disallowed": "На сервере не разрешено сидеть",
-  "text.interdimensionallib.crawling_disallowed": "На сервере не разрешено ползать"
+  "tag.kaban-central.piglins_love_armor": "Броня, нравищаяся пиглинам",
+  "tag.kaban-central.villagers_follow": "Нравится жителям",
+  "tag.kaban-central.scaffolding_blocks": "Блоки подмостков"
 }

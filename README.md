@@ -4,8 +4,6 @@ Library for all my mods :P
 ## About
 Provides most overused functions that I need for the mods.
 ## Included
-- **Movement States**  
-    Support for crawling and sitting.
 - **Grindstone Polish Recipe**  
     Custom recipes for right-clicking grindstone.
 - **Custom block set type registration**  
@@ -18,3 +16,5 @@ Provides most overused functions that I need for the mods.
     Registry and a mixin to register your own biomes.
 - **Scaffoldings as a tag**  
     Now all scaffoldings are handled through mixin and a tag.
+- **Various utils**
+    Like AdvancementHandler, MathUtils, ItemUtils

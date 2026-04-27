@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import ru.alexalabai.interdimensionallib.common.HelperTags;
 import ru.alexalabai.interdimensionallib.common.ServerCommandHandler;
 import ru.alexalabai.interdimensionallib.config.ModConfig;
-import ru.alexalabai.interdimensionallib.entity.ModEntities;
 import ru.alexalabai.interdimensionallib.packets.ModPackets;
 import ru.alexalabai.interdimensionallib.recipe.ModRecipes;
 
@@ -24,7 +23,6 @@ public class InterdimensionalLib implements ModInitializer {
 		ServerCommandHandler.regArgTypes();
 		CommandRegistrationCallback.EVENT.register((dispatcher, access, env)-> ServerCommandHandler.regAll(dispatcher));
 		ModPackets.regAll();
-		ModEntities.regAll();
 		ModRecipes.regAll();
 		HelperTags.regAll();
 		ServerLifecycleEvents.SERVER_STOPPED.register(s->{

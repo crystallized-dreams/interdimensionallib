@@ -13,9 +13,11 @@
 	"license": "MIT",
 	"icon": "assets/interdimensionallib/icon.png",
 	"environment": "*",
+	"custom": {
+		"modmenu:library": true
+	},
 	"entrypoints": {
 		"main": ["ru.alexalabai.interdimensionallib.InterdimensionalLib"],
-		"client": ["ru.alexalabai.interdimensionallib.InterdimensionalLibClient"],
 		"emi": ["ru.alexalabai.interdimensionallib.emi.EmiIntegration"]
 	},
 	"mixins": [

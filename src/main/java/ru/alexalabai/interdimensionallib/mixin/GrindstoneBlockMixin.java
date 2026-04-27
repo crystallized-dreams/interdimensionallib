@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import ru.alexalabai.interdimensionallib.common.Utils;
+import ru.alexalabai.interdimensionallib.common.ItemUtils;
 import ru.alexalabai.interdimensionallib.recipe.ModRecipes;
 import ru.alexalabai.interdimensionallib.recipe.all.GrindstonePolishRecipe;
 
@@ -49,7 +49,7 @@ public abstract class GrindstoneBlockMixin extends Block {
         Optional<RecipeEntry<GrindstonePolishRecipe>> recipe=world.getRecipeManager().getFirstMatch(ModRecipes.GRINDSTONE_POLISH_RECIPE,input,world);
         if(recipe.isEmpty()) return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
         processItem(world,pos,player,stack);
-        Utils.tryToInsertStack(player,recipe.get().value().craft(input,world.getRegistryManager()));
+        ItemUtils.tryToInsertStack(player,recipe.get().value().craft(input,world.getRegistryManager()));
         return ItemActionResult.CONSUME;
     }
 }

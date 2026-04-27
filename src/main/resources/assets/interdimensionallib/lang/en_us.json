@@ -2,10 +2,7 @@
   "text.interdimensionallib.hint": "Hold %s to learn more",
   "text.interdimensionallib.hide_hint": "Release %s to hide",
 
-  "interdimensionallib.key.click_to_sit": "Click to sit",
-  "interdimensionallib.key.crawl": "Crawl",
-  "interdimensionallib.key.sit": "Sit",
-
-  "text.interdimensionallib.sitting_disallowed": "Sitting isn't allowed on server",
-  "text.interdimensionallib.crawling_disallowed": "Crawling isn't allowed on server"
+  "tag.kaban-central.piglins_love_armor": "Piglin loved armor",
+  "tag.kaban-central.villagers_follow": "Villagers follow",
+  "tag.kaban-central.scaffolding_blocks": "Scaffolding blocks"
 }
