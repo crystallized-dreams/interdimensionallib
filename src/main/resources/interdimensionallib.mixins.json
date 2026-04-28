@@ -3,9 +3,12 @@
   "package": "ru.alexalabai.interdimensionallib.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CameraShakeMixin"
+    "CameraShakeMixin",
+    "client.BossBarHudMixin",
+    "client.DebugHudMixin",
+    "client.GuiMixin"
   ],
-  "server": [ ],
+  "server": [],
   "mixins": [
     "AbstractPressurePlateBlockMixin",
     "ButtonBlockMixin",

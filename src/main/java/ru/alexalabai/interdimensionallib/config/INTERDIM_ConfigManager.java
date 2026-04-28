@@ -10,7 +10,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ConfigManager {
+public class INTERDIM_ConfigManager {
     private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("server.interdimensionallib.json");
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
@@ -40,10 +40,10 @@ public class ConfigManager {
         }
     }
 
-    public static void save(ModConfig config) {abstractSave(config,CONFIG_PATH);}
-    public static ModConfig load() {
-        ModConfig cfg=abstractLoad(ModConfig.class,CONFIG_PATH);
-        if(cfg==null) return new ModConfig();
+    public static void save(INTERDIM_ModConfig config) {abstractSave(config,CONFIG_PATH);}
+    public static INTERDIM_ModConfig load() {
+        INTERDIM_ModConfig cfg=abstractLoad(INTERDIM_ModConfig.class,CONFIG_PATH);
+        if(cfg==null) return new INTERDIM_ModConfig();
         return cfg;
     }
 }

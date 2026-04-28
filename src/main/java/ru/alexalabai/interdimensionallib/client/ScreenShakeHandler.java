@@ -1,4 +1,4 @@
-package ru.alexalabai.interdimensionallib.common;
+package ru.alexalabai.interdimensionallib.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

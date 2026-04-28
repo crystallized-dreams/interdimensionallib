@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.alexalabai.interdimensionallib.config.ModConfig;
+import ru.alexalabai.interdimensionallib.config.INTERDIM_ModConfig;
 
 import java.util.function.BiConsumer;
 
@@ -36,7 +36,7 @@ public abstract class ButtonBlockMixin extends Block {
 
     @Inject(method = "onExploded", at = @At("HEAD"), cancellable = true)
     void onExploded$kc(BlockState state, World world, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> stackMerger, CallbackInfo info) {
-        if(!ModConfig.INSTANCE.overhaulBlockInteractions) return;
+        if(!INTERDIM_ModConfig.INSTANCE.overhaulBlockInteractions) return;
         info.cancel();
         if (explosion.canTriggerBlocks() && !(Boolean)state.get(Properties.POWERED) && blockSetType.canOpenByWindCharge()) {
             powerOn(state, world, pos, null);
@@ -47,7 +47,7 @@ public abstract class ButtonBlockMixin extends Block {
 
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
     void onUse$kc(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> info) {
-        if(!ModConfig.INSTANCE.overhaulBlockInteractions) return;
-        if(!blockSetType.canOpenByHand()) info.setReturnValue(ActionResult.CONSUME);
+        if(!INTERDIM_ModConfig.INSTANCE.overhaulBlockInteractions) return;
+        if(!blockSetType.canOpenByHand() && blockSetType.canButtonBeActivatedByArrows()) info.setReturnValue(ActionResult.CONSUME);
     }
 }

@@ -18,7 +18,8 @@
 	},
 	"entrypoints": {
 		"main": ["ru.alexalabai.interdimensionallib.InterdimensionalLib"],
-		"emi": ["ru.alexalabai.interdimensionallib.emi.EmiIntegration"]
+		"client": ["ru.alexalabai.interdimensionallib.client.InterdimensionalLibClient"],
+		"emi": ["ru.alexalabai.interdimensionallib.emi.INTERDIM_EmiIntegration"]
 	},
 	"mixins": [
 		"interdimensionallib.mixins.json"

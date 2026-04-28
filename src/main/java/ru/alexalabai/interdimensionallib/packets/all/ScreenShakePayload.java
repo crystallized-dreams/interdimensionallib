@@ -4,10 +4,10 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
-import ru.alexalabai.interdimensionallib.packets.ModPackets;
+import ru.alexalabai.interdimensionallib.packets.INTERDIM_ServerPackets;
 
 public record ScreenShakePayload(double intensity, int duration, int rate, boolean overwrite) implements CustomPayload {
-    public static final Id<ScreenShakePayload> ID = new Id<>(ModPackets.SCREENSHAKE_PACKET);
+    public static final Id<ScreenShakePayload> ID = new Id<>(INTERDIM_ServerPackets.SCREENSHAKE_PACKET);
     public static final PacketCodec<RegistryByteBuf, ScreenShakePayload> CODEC = PacketCodec.tuple(
             PacketCodecs.DOUBLE, ScreenShakePayload::intensity,
             PacketCodecs.INTEGER, ScreenShakePayload::duration,

@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import ru.alexalabai.interdimensionallib.common.ItemUtils;
-import ru.alexalabai.interdimensionallib.recipe.ModRecipes;
+import ru.alexalabai.interdimensionallib.recipe.INTERDIM_Recipes;
 import ru.alexalabai.interdimensionallib.recipe.all.GrindstonePolishRecipe;
 
 import java.util.Optional;
@@ -46,7 +46,7 @@ public abstract class GrindstoneBlockMixin extends Block {
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(player.getItemCooldownManager().isCoolingDown(stack.getItem())) return ItemActionResult.FAIL;
         SingleStackRecipeInput input=new SingleStackRecipeInput(stack);
-        Optional<RecipeEntry<GrindstonePolishRecipe>> recipe=world.getRecipeManager().getFirstMatch(ModRecipes.GRINDSTONE_POLISH_RECIPE,input,world);
+        Optional<RecipeEntry<GrindstonePolishRecipe>> recipe=world.getRecipeManager().getFirstMatch(INTERDIM_Recipes.GRINDSTONE_POLISH_RECIPE,input,world);
         if(recipe.isEmpty()) return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
         processItem(world,pos,player,stack);
         ItemUtils.tryToInsertStack(player,recipe.get().value().craft(input,world.getRegistryManager()));

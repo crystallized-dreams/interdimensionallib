@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.alexalabai.interdimensionallib.config.ModConfig;
+import ru.alexalabai.interdimensionallib.config.INTERDIM_ModConfig;
 
 import java.util.function.BiConsumer;
 
@@ -42,14 +42,14 @@ public abstract class AbstractPressurePlateBlockMixin extends Block {
 
     @Inject(method = "updatePlateState", at = @At("HEAD"), cancellable = true)
     void updatePlateState$kc(Entity entity, World world, BlockPos pos, BlockState state, int output, CallbackInfo info) {
-        if(entity==null||!ModConfig.INSTANCE.overhaulBlockInteractions) return;
-        if(entity instanceof PlayerEntity && !blockSetType.canOpenByHand()) info.cancel();
+        if(entity==null||!INTERDIM_ModConfig.INSTANCE.overhaulBlockInteractions) return;
+        if(entity instanceof PlayerEntity && !blockSetType.canOpenByHand() && blockSetType.canButtonBeActivatedByArrows()) info.cancel();
     }
 
     @Override
     protected void onExploded(BlockState state, World world, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> stackMerger) {
         super.onExploded(state, world, pos, explosion, stackMerger);
-        if (!explosion.canTriggerBlocks() || !blockSetType.canOpenByWindCharge() || world.isClient || !ModConfig.INSTANCE.overhaulBlockInteractions) return;
+        if (!explosion.canTriggerBlocks() || !blockSetType.canOpenByWindCharge() || world.isClient || !INTERDIM_ModConfig.INSTANCE.overhaulBlockInteractions) return;
         int o=getRedstoneOutput(world, pos);
         if (o>0 && !state.get(Properties.POWERED)) {
             BlockState blockState = setRedstoneOutput(state, o);

@@ -13,7 +13,7 @@ import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import ru.alexalabai.interdimensionallib.recipe.ModRecipes;
+import ru.alexalabai.interdimensionallib.recipe.INTERDIM_Recipes;
 
 public record GrindstonePolishRecipe(Identifier id, Ingredient input, ItemStack output) implements Recipe<SingleStackRecipeInput> {
     public GrindstonePolishRecipe {
@@ -50,7 +50,7 @@ public record GrindstonePolishRecipe(Identifier id, Ingredient input, ItemStack 
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.GRINDSTONE_POLISH_RECIPE;
+        return INTERDIM_Recipes.GRINDSTONE_POLISH_RECIPE;
     }
 
     public static class GrindstonePolishRecipeSerializer implements RecipeSerializer<GrindstonePolishRecipe> {

@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import ru.alexalabai.interdimensionallib.InterdimensionalLib;
 import ru.alexalabai.interdimensionallib.recipe.all.GrindstonePolishRecipe;
 
-public class ModRecipes {
+public class INTERDIM_Recipes {
     public static final RecipeSerializer<GrindstonePolishRecipe> GRINDSTONE_POLISH_SERIALIZER=
             RecipeSerializer.register("interdimensionallib:grindstone_polish", GrindstonePolishRecipe.GrindstonePolishRecipeSerializer.INSTANCE);
 

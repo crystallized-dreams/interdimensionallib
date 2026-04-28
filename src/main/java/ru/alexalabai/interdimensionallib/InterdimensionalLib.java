@@ -7,10 +7,10 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.alexalabai.interdimensionallib.common.HelperTags;
-import ru.alexalabai.interdimensionallib.common.ServerCommandHandler;
-import ru.alexalabai.interdimensionallib.config.ModConfig;
-import ru.alexalabai.interdimensionallib.packets.ModPackets;
-import ru.alexalabai.interdimensionallib.recipe.ModRecipes;
+import ru.alexalabai.interdimensionallib.common.INTERDIM_ServerCommandHandler;
+import ru.alexalabai.interdimensionallib.config.INTERDIM_ModConfig;
+import ru.alexalabai.interdimensionallib.packets.INTERDIM_ServerPackets;
+import ru.alexalabai.interdimensionallib.recipe.INTERDIM_Recipes;
 
 public class InterdimensionalLib implements ModInitializer {
 	public static final String MOD_ID = "interdimensionallib";
@@ -18,15 +18,15 @@ public class InterdimensionalLib implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModConfig.INSTANCE=ModConfig.load();
+		INTERDIM_ModConfig.INSTANCE= INTERDIM_ModConfig.load();
 		LOGGER.info("[INTERDIM]: Registered server config");
-		ServerCommandHandler.regArgTypes();
-		CommandRegistrationCallback.EVENT.register((dispatcher, access, env)-> ServerCommandHandler.regAll(dispatcher));
-		ModPackets.regAll();
-		ModRecipes.regAll();
+		INTERDIM_ServerCommandHandler.regArgTypes();
+		CommandRegistrationCallback.EVENT.register((dispatcher, access, env)-> INTERDIM_ServerCommandHandler.regAll(dispatcher));
+		INTERDIM_ServerPackets.regAll();
+		INTERDIM_Recipes.regAll();
 		HelperTags.regAll();
 		ServerLifecycleEvents.SERVER_STOPPED.register(s->{
-			ModConfig.INSTANCE.save();
+			INTERDIM_ModConfig.INSTANCE.save();
 		});
 		LOGGER.info("[INTERDIM]: Server initialized");
 	}

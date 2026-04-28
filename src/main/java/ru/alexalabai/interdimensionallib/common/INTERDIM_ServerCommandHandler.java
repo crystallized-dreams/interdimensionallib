@@ -21,7 +21,7 @@ import java.util.Collection;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class ServerCommandHandler {
+public class INTERDIM_ServerCommandHandler {
     private static void sendScreenShakePacket(CommandContext<ServerCommandSource> ctx, Collection<ServerPlayerEntity> targets, GrowRate rate) {
         double intensity = DoubleArgumentType.getDouble(ctx, "intensity");
         float dur = FloatArgumentType.getFloat(ctx, "duration");
@@ -47,16 +47,18 @@ public class ServerCommandHandler {
     }
 
     public static void regAll(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(literal("screen").then(
-                literal("close").executes(ctx->{
-                    if(ctx.getSource().getPlayer()!=null) ctx.getSource().getPlayer().closeHandledScreen();
-                    return 1;
-                }).then(argument("targets", EntityArgumentType.players()).executes(ctx->{
-                    for(var player : EntityArgumentType.getPlayers(ctx,"targets")) if(player!=null) player.closeHandledScreen();
-                    return 1;
-                }))
-        ));
-        dispatcher.register(literal("camera")
+        dispatcher.register(literal("screen").requires(src->src.hasPermissionLevel(1))
+                .then(
+                    literal("close").executes(ctx->{
+                        if(ctx.getSource().getPlayer()!=null) ctx.getSource().getPlayer().closeHandledScreen();
+                        return 1;
+                    }).then(argument("targets", EntityArgumentType.players()).executes(ctx->{
+                        for(var player : EntityArgumentType.getPlayers(ctx,"targets")) if(player!=null) player.closeHandledScreen();
+                        return 1;
+                    }))
+                )
+        );
+        dispatcher.register(literal("camera").requires(src->src.hasPermissionLevel(1))
                     .then(literal("shake")
                         .then(argument("targets", EntityArgumentType.players())
                             .then(literal("start")
