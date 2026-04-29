@@ -1,15 +1,17 @@
 package ru.alexalabai.interdimensionallib.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.registry.tag.TagKey;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
@@ -77,15 +79,26 @@ public class GuiMixin {
     void renderMountHealth$dimlim(DrawContext context, CallbackInfo info) {
         if(!ClientRendererConfig.Gui.shouldRenderMountHealth) info.cancel();
     }
-    @ModifyReturnValue(
+
+    @Redirect(
             method = "renderStatusBars",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/entity/player/PlayerEntity;isSubmergedIn(Lnet/minecraft/registry/tag/TagKey;)Z"
             )
     )
-    private boolean modifyIsSubmergedInWater(boolean original) {
-        if(!ClientRendererConfig.Gui.shouldRenderAir) return false;
-        return original;
+    boolean redirectIsSubmergedInWater$dimlim(PlayerEntity instance, TagKey<Fluid> fluidTag) {
+        return ClientRendererConfig.Gui.shouldRenderAir && instance.isSubmergedIn(fluidTag);
+    }
+
+    @Redirect(
+            method = "renderStatusBars",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/entity/player/PlayerEntity;getAir()I"
+            )
+    )
+    int redirectGetAir$dimlim(PlayerEntity instance) {
+        return ClientRendererConfig.Gui.shouldRenderAir?instance.getAir():instance.getMaxAir();
     }
 }
