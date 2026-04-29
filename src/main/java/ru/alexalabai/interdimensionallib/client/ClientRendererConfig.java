@@ -46,4 +46,6 @@ public class ClientRendererConfig {
             shouldRenderMisc = state;
         }
     }
+    public static FogAccessor.FogData FOG;
+    public static boolean overrideFog=false;
 }
