@@ -1,10 +1,13 @@
 package ru.alexalabai.interdimensionallib.packets;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.util.math.Vec3d;
 import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 import ru.alexalabai.interdimensionallib.client.ScreenShakeHandler;
+import ru.alexalabai.interdimensionallib.packets.all.FogDisplayChangePayload;
 import ru.alexalabai.interdimensionallib.packets.all.GuiDisplayChangePayload;
 import ru.alexalabai.interdimensionallib.packets.all.ScreenShakePayload;
+import ru.alexalabai.interdimensionallib.packets.all.SkyDisplayChangePayload;
 
 public class INTERDIM_ClientPackets {
     public static void regAll() {
@@ -71,6 +74,19 @@ public class INTERDIM_ClientPackets {
                             ClientRendererConfig.Gui.shouldRenderMisc=payload.state();
                             break;
                     }
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(FogDisplayChangePayload.ID, (payload, ctx)->
+                ctx.client().execute(()->{
+                    ClientRendererConfig.Fog.start=payload.start();
+                    ClientRendererConfig.Fog.end=payload.end();
+                    ClientRendererConfig.Fog.sphere=payload.sphere();
+                    ClientRendererConfig.Fog.accountViewDistance=payload.accountViewDistance();
+                    ClientRendererConfig.Fog.override=!payload.reset();
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(SkyDisplayChangePayload.ID, (payload, ctx)->
+                ctx.client().execute(()->{
+                    ClientRendererConfig.Sky.color=new Vec3d(payload.colorR(),payload.colorG(),payload.colorB());
+                    ClientRendererConfig.Sky.override=!payload.reset();
                 }));
     }
 }

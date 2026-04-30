@@ -1,6 +1,7 @@
 package ru.alexalabai.interdimensionallib.common;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -8,16 +9,22 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
+import org.joml.Vector3f;
 import ru.alexalabai.interdimensionallib.InterdimensionalLib;
 import ru.alexalabai.interdimensionallib.common.args.GrowRateArgumentType;
+import ru.alexalabai.interdimensionallib.common.args.VolumeShapeArgumentType;
 import ru.alexalabai.interdimensionallib.common.types.GrowRate;
+import ru.alexalabai.interdimensionallib.packets.all.FogDisplayChangePayload;
 import ru.alexalabai.interdimensionallib.packets.all.GuiDisplayChangePayload;
 import ru.alexalabai.interdimensionallib.packets.all.ScreenShakePayload;
+import ru.alexalabai.interdimensionallib.packets.all.SkyDisplayChangePayload;
 
 import java.util.Collection;
 
@@ -40,6 +47,79 @@ public class INTERDIM_ServerCommandHandler {
             for(ServerPlayerEntity target : targets)
                 ServerPlayNetworking.send(target, payload);
         }
+    }
+    private static int sendFogPacket(CommandContext<ServerCommandSource> ctx, Boolean accountViewDistance, Boolean sphere) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            float start=FloatArgumentType.getFloat(ctx,"start");
+            float end=FloatArgumentType.getFloat(ctx,"end");
+            boolean _accountViewDistance=false;
+            if(accountViewDistance==null) _accountViewDistance=BoolArgumentType.getBool(ctx,"accountViewDistance");
+            boolean _sphere=false;
+            if(sphere==null) _sphere=BoolArgumentType.getBool(ctx,"sphere");
+            FogDisplayChangePayload payload=new FogDisplayChangePayload(start,end,_sphere,_accountViewDistance,false);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+    private static int sendFogResetPacket(CommandContext<ServerCommandSource> ctx) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            FogDisplayChangePayload payload=new FogDisplayChangePayload(1,1,true,true,true);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+    private static int sendSkyPacket(CommandContext<ServerCommandSource> ctx) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            float red=FloatArgumentType.getFloat(ctx,"red");
+            float green=FloatArgumentType.getFloat(ctx,"green");
+            float blue=FloatArgumentType.getFloat(ctx,"blue");
+            SkyDisplayChangePayload payload=new SkyDisplayChangePayload(red, green, blue,false);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+    private static int sendSkyResetPacket(CommandContext<ServerCommandSource> ctx) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            SkyDisplayChangePayload payload=new SkyDisplayChangePayload(0.5f,0.5f,0.5f,true);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
     }
 
     private static int setVisualElementState(CommandContext<ServerCommandSource> ctx, int id, boolean state) {
@@ -64,6 +144,10 @@ public class INTERDIM_ServerCommandHandler {
                 Identifier.of(InterdimensionalLib.MOD_ID, "grow_rate"),
                 GrowRateArgumentType.class,
                 ConstantArgumentSerializer.of(GrowRateArgumentType::growRate));
+        ArgumentTypeRegistry.registerArgumentType(
+                Identifier.of(InterdimensionalLib.MOD_ID, "volume_shape"),
+                VolumeShapeArgumentType.class,
+                ConstantArgumentSerializer.of(VolumeShapeArgumentType::shape));
     }
 
     public static void regAll(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -109,7 +193,7 @@ public class INTERDIM_ServerCommandHandler {
         dispatcher.register(literal("gui").requires(src->src.hasPermissionLevel(1))
                 .then(argument("targets", EntityArgumentType.players())
                         .then(literal("hide")
-                                .then(literal("all").executes(ctx->setVisualElementState(ctx,0,false)))
+                                .then(literal("*").executes(ctx->setVisualElementState(ctx,0,false)))
                                 .then(literal("debug").executes(ctx->setVisualElementState(ctx,1,false)))
                                 .then(literal("crosshair").executes(ctx->setVisualElementState(ctx,2,false)))
                                 .then(literal("hotbar").executes(ctx->setVisualElementState(ctx,3,false)))
@@ -130,7 +214,7 @@ public class INTERDIM_ServerCommandHandler {
                                 .then(literal("misc").executes(ctx->setVisualElementState(ctx,18,false)))
                         )
                         .then(literal("show")
-                                .then(literal("all").executes(ctx->setVisualElementState(ctx,0,true)))
+                                .then(literal("*").executes(ctx->setVisualElementState(ctx,0,true)))
                                 .then(literal("debug").executes(ctx->setVisualElementState(ctx,1,true)))
                                 .then(literal("crosshair").executes(ctx->setVisualElementState(ctx,2,true)))
                                 .then(literal("hotbar").executes(ctx->setVisualElementState(ctx,3,true)))
@@ -151,5 +235,23 @@ public class INTERDIM_ServerCommandHandler {
                                 .then(literal("misc").executes(ctx->setVisualElementState(ctx,18,true)))
                         )
         ));
+        dispatcher.register(literal("sky")
+                .then(literal("fog").requires(src->src.hasPermissionLevel(1))
+                            .then(literal("set").then(argument("targets", EntityArgumentType.players()).then(argument("start", FloatArgumentType.floatArg()).then(argument("end", FloatArgumentType.floatArg())
+                                            .executes(ctx->sendFogPacket(ctx, false,true))
+                                    .then(argument("accountViewDistance", BoolArgumentType.bool()).executes(ctx->sendFogPacket(ctx,null,true))
+                                            .then(argument("sphere", BoolArgumentType.bool()).executes(ctx->sendFogPacket(ctx,null,null))))))))
+                            .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendFogResetPacket)))
+                    )
+                .then(literal("color")
+                        .then(literal("set")
+                                .then(argument("targets", EntityArgumentType.players())
+                                        .then(argument("red", FloatArgumentType.floatArg(0,1))
+                                                .then(argument("green", FloatArgumentType.floatArg(0,1))
+                                                        .then(argument("blue", FloatArgumentType.floatArg(0,1))
+                                                                .executes(INTERDIM_ServerCommandHandler::sendSkyPacket))))))
+                        .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendSkyResetPacket)))
+                )
+        );
     }
 }

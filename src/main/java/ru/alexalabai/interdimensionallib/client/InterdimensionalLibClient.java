@@ -8,8 +8,9 @@ public class InterdimensionalLibClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         INTERDIM_ClientPackets.regAll();
-        ClientPlayConnectionEvents.DISCONNECT.register((clientPlayNetworkHandler, client) ->
-            ClientRendererConfig.Gui.setAll(true)
-        );
+        ClientPlayConnectionEvents.DISCONNECT.register((clientPlayNetworkHandler, client) -> {
+            ClientRendererConfig.Gui.setAll(true);
+            ClientRendererConfig.Fog.override=false;
+        });
     }
 }
