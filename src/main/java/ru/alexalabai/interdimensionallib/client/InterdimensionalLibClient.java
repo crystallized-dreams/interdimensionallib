@@ -11,6 +11,7 @@ public class InterdimensionalLibClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((clientPlayNetworkHandler, client) -> {
             ClientRendererConfig.Gui.setAll(true);
             ClientRendererConfig.Fog.override=false;
+            ClientRendererConfig.Sky.override=false;
         });
     }
 }

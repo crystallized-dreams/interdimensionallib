@@ -11,7 +11,7 @@ Provides most overused functions that I need for the mods.
 - **Registration for custom note block instruments**  
     Add your own NoteBlock instruments.
 - **Utils for datapacks**  
-    Camera screenshake, screen closing.
+    Camera screenshake, screen closing, gui hiding, sky and fog modification.
 - **Custom biome registry**  
     Registry and a mixin to register your own biomes.
 - **Scaffoldings as a tag**  
