@@ -48,14 +48,27 @@ public class ClientRendererConfig {
         }
     }
     public static class Fog {
-        public static boolean override=false;
-        public static float start=1;
-        public static float end=1;
-        public static boolean accountViewDistance=true;
-        public static boolean sphere=true;
+        public static boolean override = false;
+        public static float start = 1;
+        public static float end = 1;
+        public static boolean accountViewDistance = true;
+        public static boolean sphere = true;
     }
     public static class Sky {
-        public static boolean override=false;
-        public static Vec3d color=new Vec3d(0.5,0.5,0.5);
+        public static boolean overrideColor = false;
+        public static Vec3d color = new Vec3d(0.5,0.5,0.5);
+        public static float sunSize = 30;
+        public static float moonSize = 20;
+        public static float starsBrightness = 1;
+        public static boolean showClouds = true;
+    }
+    public static void reset() {
+        Gui.setAll(true);
+        Fog.override = false;
+        Sky.overrideColor = false;
+        Sky.sunSize = 30;
+        Sky.moonSize = 20;
+        Sky.starsBrightness = 1;
+        Sky.showClouds = true;
     }
 }

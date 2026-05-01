@@ -1,6 +1,6 @@
 {
-  "text.interdimensionallib.hint": "Hold %s to learn more",
-  "text.interdimensionallib.hide_hint": "Release %s to hide",
+  "text.interdimensionallib.hint": "\uD83D\uDEC8 Hold %s to learn more",
+  "text.interdimensionallib.hide_hint": "\uD83D\uDEC8 Release %s to hide",
 
   "tag.kaban-central.piglins_love_armor": "Piglin loved armor",
   "tag.kaban-central.villagers_follow": "Villagers follow",

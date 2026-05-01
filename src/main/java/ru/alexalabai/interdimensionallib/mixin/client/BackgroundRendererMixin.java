@@ -18,7 +18,7 @@ import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 public class BackgroundRendererMixin {
     @Inject(method="render", at=@At(value="INVOKE", target="Lcom/mojang/blaze3d/systems/RenderSystem;clearColor(FFFF)V", shift=At.Shift.AFTER))
     private static void modifyFogColor$interdim(Camera camera, float tickDelta, ClientWorld world, int viewDistance, float skyDarkness, CallbackInfo info) {
-        if(!ClientRendererConfig.Sky.override) return;
+        if(!ClientRendererConfig.Sky.overrideColor) return;
         RenderSystem.clearColor(
                 (float) ClientRendererConfig.Sky.color.x,
                 (float) ClientRendererConfig.Sky.color.y,
@@ -28,7 +28,7 @@ public class BackgroundRendererMixin {
     }
     @Inject(method="applyFogColor",at=@At("HEAD"), cancellable = true)
     private static void applyFogColor$interdim(CallbackInfo info) {
-        if(!ClientRendererConfig.Sky.override) return;
+        if(!ClientRendererConfig.Sky.overrideColor) return;
         RenderSystem.setShaderFogColor(
                 (float) ClientRendererConfig.Sky.color.x,
                 (float) ClientRendererConfig.Sky.color.y,
@@ -39,7 +39,7 @@ public class BackgroundRendererMixin {
     @Inject(method="applyFog",at=@At("TAIL"))
     private static void applyFog$interdim(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo info) {
         //Either way modify clear color if needed.
-        if(ClientRendererConfig.Sky.override)
+        if(ClientRendererConfig.Sky.overrideColor)
             RenderSystem.setShaderFogColor(
                     (float) ClientRendererConfig.Sky.color.x,
                     (float) ClientRendererConfig.Sky.color.y,

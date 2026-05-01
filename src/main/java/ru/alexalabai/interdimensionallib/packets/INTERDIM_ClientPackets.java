@@ -4,10 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.util.math.Vec3d;
 import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 import ru.alexalabai.interdimensionallib.client.ScreenShakeHandler;
-import ru.alexalabai.interdimensionallib.packets.all.FogDisplayChangePayload;
-import ru.alexalabai.interdimensionallib.packets.all.GuiDisplayChangePayload;
-import ru.alexalabai.interdimensionallib.packets.all.ScreenShakePayload;
-import ru.alexalabai.interdimensionallib.packets.all.SkyDisplayChangePayload;
+import ru.alexalabai.interdimensionallib.packets.all.*;
 
 public class INTERDIM_ClientPackets {
     public static void regAll() {
@@ -83,10 +80,17 @@ public class INTERDIM_ClientPackets {
                     ClientRendererConfig.Fog.accountViewDistance=payload.accountViewDistance();
                     ClientRendererConfig.Fog.override=!payload.reset();
                 }));
-        ClientPlayNetworking.registerGlobalReceiver(SkyDisplayChangePayload.ID, (payload, ctx)->
+        ClientPlayNetworking.registerGlobalReceiver(SkyPackets.SkyColorChangePayload.ID, (payload, ctx)->
                 ctx.client().execute(()->{
                     ClientRendererConfig.Sky.color=new Vec3d(payload.colorR(),payload.colorG(),payload.colorB());
-                    ClientRendererConfig.Sky.override=!payload.reset();
+                    ClientRendererConfig.Sky.overrideColor=!payload.reset();
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(SkyPackets.SkyDisplayChangePayload.ID, (payload, ctx)->
+                ctx.client().execute(()->{
+                    ClientRendererConfig.Sky.sunSize=payload.sunSize();
+                    ClientRendererConfig.Sky.moonSize=payload.moonSize();
+                    ClientRendererConfig.Sky.starsBrightness=payload.starsBrightness();
+                    ClientRendererConfig.Sky.showClouds=payload.showClouds();
                 }));
     }
 }

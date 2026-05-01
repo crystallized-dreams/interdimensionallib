@@ -9,22 +9,17 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
-import org.joml.Vector3f;
 import ru.alexalabai.interdimensionallib.InterdimensionalLib;
+import ru.alexalabai.interdimensionallib.common.args.EasingArgumentType;
 import ru.alexalabai.interdimensionallib.common.args.GrowRateArgumentType;
 import ru.alexalabai.interdimensionallib.common.args.VolumeShapeArgumentType;
 import ru.alexalabai.interdimensionallib.common.types.GrowRate;
-import ru.alexalabai.interdimensionallib.packets.all.FogDisplayChangePayload;
-import ru.alexalabai.interdimensionallib.packets.all.GuiDisplayChangePayload;
-import ru.alexalabai.interdimensionallib.packets.all.ScreenShakePayload;
-import ru.alexalabai.interdimensionallib.packets.all.SkyDisplayChangePayload;
+import ru.alexalabai.interdimensionallib.packets.all.*;
 
 import java.util.Collection;
 
@@ -86,7 +81,7 @@ public class INTERDIM_ServerCommandHandler {
         }
         return -1;
     }
-    private static int sendSkyPacket(CommandContext<ServerCommandSource> ctx) {
+    private static int sendSkyColorPacket(CommandContext<ServerCommandSource> ctx) {
         try {
             var targets=EntityArgumentType.getPlayers(ctx,"targets");
             if(targets==null||targets.isEmpty()) {
@@ -96,7 +91,7 @@ public class INTERDIM_ServerCommandHandler {
             float red=FloatArgumentType.getFloat(ctx,"red");
             float green=FloatArgumentType.getFloat(ctx,"green");
             float blue=FloatArgumentType.getFloat(ctx,"blue");
-            SkyDisplayChangePayload payload=new SkyDisplayChangePayload(red, green, blue,false);
+            SkyPackets.SkyColorChangePayload payload=new SkyPackets.SkyColorChangePayload(red, green, blue,false);
             for(ServerPlayerEntity target : targets)
                 ServerPlayNetworking.send(target, payload);
             return 0;
@@ -105,14 +100,14 @@ public class INTERDIM_ServerCommandHandler {
         }
         return -1;
     }
-    private static int sendSkyResetPacket(CommandContext<ServerCommandSource> ctx) {
+    private static int sendSkyColorResetPacket(CommandContext<ServerCommandSource> ctx) {
         try {
             var targets=EntityArgumentType.getPlayers(ctx,"targets");
             if(targets==null||targets.isEmpty()) {
                 ctx.getSource().sendError(Text.of("No targets found"));
                 return -1;
             }
-            SkyDisplayChangePayload payload=new SkyDisplayChangePayload(0.5f,0.5f,0.5f,true);
+            SkyPackets.SkyColorChangePayload payload=new SkyPackets.SkyColorChangePayload(0.5f,0.5f,0.5f,true);
             for(ServerPlayerEntity target : targets)
                 ServerPlayNetworking.send(target, payload);
             return 0;
@@ -122,7 +117,44 @@ public class INTERDIM_ServerCommandHandler {
         return -1;
     }
 
-    private static int setVisualElementState(CommandContext<ServerCommandSource> ctx, int id, boolean state) {
+    private static int sendSkyDisplayPacket(CommandContext<ServerCommandSource> ctx) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            float sunSize=FloatArgumentType.getFloat(ctx,"sunSize");
+            float moonSize=FloatArgumentType.getFloat(ctx,"moonSize");
+            float starsBrightness=FloatArgumentType.getFloat(ctx,"starsBrightness");
+            boolean showClouds=BoolArgumentType.getBool(ctx,"showClouds");
+            SkyPackets.SkyDisplayChangePayload payload=new SkyPackets.SkyDisplayChangePayload(sunSize,moonSize,starsBrightness,showClouds);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+    private static int sendSkyDisplayResetPacket(CommandContext<ServerCommandSource> ctx) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            SkyPackets.SkyDisplayChangePayload payload=new SkyPackets.SkyDisplayChangePayload(30,20,1,true);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+
+    private static int sendGuiElementDisplayPacket(CommandContext<ServerCommandSource> ctx, int id, boolean state) {
         try {
             var targets=EntityArgumentType.getPlayers(ctx,"targets");
             if(targets==null||targets.isEmpty()) {
@@ -148,6 +180,10 @@ public class INTERDIM_ServerCommandHandler {
                 Identifier.of(InterdimensionalLib.MOD_ID, "volume_shape"),
                 VolumeShapeArgumentType.class,
                 ConstantArgumentSerializer.of(VolumeShapeArgumentType::shape));
+        ArgumentTypeRegistry.registerArgumentType(
+                Identifier.of(InterdimensionalLib.MOD_ID, "easing"),
+                EasingArgumentType.class,
+                ConstantArgumentSerializer.of(EasingArgumentType::easing));
     }
 
     public static void regAll(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -193,46 +229,46 @@ public class INTERDIM_ServerCommandHandler {
         dispatcher.register(literal("gui").requires(src->src.hasPermissionLevel(1))
                 .then(argument("targets", EntityArgumentType.players())
                         .then(literal("hide")
-                                .then(literal("*").executes(ctx->setVisualElementState(ctx,0,false)))
-                                .then(literal("debug").executes(ctx->setVisualElementState(ctx,1,false)))
-                                .then(literal("crosshair").executes(ctx->setVisualElementState(ctx,2,false)))
-                                .then(literal("hotbar").executes(ctx->setVisualElementState(ctx,3,false)))
-                                .then(literal("itemText").executes(ctx->setVisualElementState(ctx,4,false)))
-                                .then(literal("overlayMessage").executes(ctx->setVisualElementState(ctx,5,false)))
-                                .then(literal("titleSubtitle").executes(ctx->setVisualElementState(ctx,6,false)))
-                                .then(literal("statusEffect").executes(ctx->setVisualElementState(ctx,7,false)))
-                                .then(literal("experience").executes(ctx->setVisualElementState(ctx,8,false)))
-                                .then(literal("health").executes(ctx->setVisualElementState(ctx,9,false)))
-                                .then(literal("armor").executes(ctx->setVisualElementState(ctx,10,false)))
-                                .then(literal("air").executes(ctx->setVisualElementState(ctx,11,false)))
-                                .then(literal("mountHealth").executes(ctx->setVisualElementState(ctx,12,false)))
-                                .then(literal("food").executes(ctx->setVisualElementState(ctx,13,false)))
-                                .then(literal("scoreboardSidebar").executes(ctx->setVisualElementState(ctx,14,false)))
-                                .then(literal("bossbars").executes(ctx->setVisualElementState(ctx,15,false)))
-                                .then(literal("chat").executes(ctx->setVisualElementState(ctx,16,false)))
-                                .then(literal("playerList").executes(ctx->setVisualElementState(ctx,17,false)))
-                                .then(literal("misc").executes(ctx->setVisualElementState(ctx,18,false)))
+                                .then(literal("*").executes(ctx-> sendGuiElementDisplayPacket(ctx,0,false)))
+                                .then(literal("debug").executes(ctx-> sendGuiElementDisplayPacket(ctx,1,false)))
+                                .then(literal("crosshair").executes(ctx-> sendGuiElementDisplayPacket(ctx,2,false)))
+                                .then(literal("hotbar").executes(ctx-> sendGuiElementDisplayPacket(ctx,3,false)))
+                                .then(literal("itemText").executes(ctx-> sendGuiElementDisplayPacket(ctx,4,false)))
+                                .then(literal("overlayMessage").executes(ctx-> sendGuiElementDisplayPacket(ctx,5,false)))
+                                .then(literal("titleSubtitle").executes(ctx-> sendGuiElementDisplayPacket(ctx,6,false)))
+                                .then(literal("statusEffect").executes(ctx-> sendGuiElementDisplayPacket(ctx,7,false)))
+                                .then(literal("experience").executes(ctx-> sendGuiElementDisplayPacket(ctx,8,false)))
+                                .then(literal("health").executes(ctx-> sendGuiElementDisplayPacket(ctx,9,false)))
+                                .then(literal("armor").executes(ctx-> sendGuiElementDisplayPacket(ctx,10,false)))
+                                .then(literal("air").executes(ctx-> sendGuiElementDisplayPacket(ctx,11,false)))
+                                .then(literal("mountHealth").executes(ctx-> sendGuiElementDisplayPacket(ctx,12,false)))
+                                .then(literal("food").executes(ctx-> sendGuiElementDisplayPacket(ctx,13,false)))
+                                .then(literal("scoreboardSidebar").executes(ctx-> sendGuiElementDisplayPacket(ctx,14,false)))
+                                .then(literal("bossbars").executes(ctx-> sendGuiElementDisplayPacket(ctx,15,false)))
+                                .then(literal("chat").executes(ctx-> sendGuiElementDisplayPacket(ctx,16,false)))
+                                .then(literal("playerList").executes(ctx-> sendGuiElementDisplayPacket(ctx,17,false)))
+                                .then(literal("misc").executes(ctx-> sendGuiElementDisplayPacket(ctx,18,false)))
                         )
                         .then(literal("show")
-                                .then(literal("*").executes(ctx->setVisualElementState(ctx,0,true)))
-                                .then(literal("debug").executes(ctx->setVisualElementState(ctx,1,true)))
-                                .then(literal("crosshair").executes(ctx->setVisualElementState(ctx,2,true)))
-                                .then(literal("hotbar").executes(ctx->setVisualElementState(ctx,3,true)))
-                                .then(literal("itemText").executes(ctx->setVisualElementState(ctx,4,true)))
-                                .then(literal("overlayMessage").executes(ctx->setVisualElementState(ctx,5,true)))
-                                .then(literal("titleSubtitle").executes(ctx->setVisualElementState(ctx,6,true)))
-                                .then(literal("statusEffect").executes(ctx->setVisualElementState(ctx,7,true)))
-                                .then(literal("experience").executes(ctx->setVisualElementState(ctx,8,true)))
-                                .then(literal("health").executes(ctx->setVisualElementState(ctx,9,true)))
-                                .then(literal("armor").executes(ctx->setVisualElementState(ctx,10,true)))
-                                .then(literal("air").executes(ctx->setVisualElementState(ctx,11,true)))
-                                .then(literal("mountHealth").executes(ctx->setVisualElementState(ctx,12,true)))
-                                .then(literal("food").executes(ctx->setVisualElementState(ctx,13,true)))
-                                .then(literal("scoreboardSidebar").executes(ctx->setVisualElementState(ctx,14,true)))
-                                .then(literal("bossbars").executes(ctx->setVisualElementState(ctx,15,true)))
-                                .then(literal("chat").executes(ctx->setVisualElementState(ctx,16,true)))
-                                .then(literal("playerList").executes(ctx->setVisualElementState(ctx,17,true)))
-                                .then(literal("misc").executes(ctx->setVisualElementState(ctx,18,true)))
+                                .then(literal("*").executes(ctx-> sendGuiElementDisplayPacket(ctx,0,true)))
+                                .then(literal("debug").executes(ctx-> sendGuiElementDisplayPacket(ctx,1,true)))
+                                .then(literal("crosshair").executes(ctx-> sendGuiElementDisplayPacket(ctx,2,true)))
+                                .then(literal("hotbar").executes(ctx-> sendGuiElementDisplayPacket(ctx,3,true)))
+                                .then(literal("itemText").executes(ctx-> sendGuiElementDisplayPacket(ctx,4,true)))
+                                .then(literal("overlayMessage").executes(ctx-> sendGuiElementDisplayPacket(ctx,5,true)))
+                                .then(literal("titleSubtitle").executes(ctx-> sendGuiElementDisplayPacket(ctx,6,true)))
+                                .then(literal("statusEffect").executes(ctx-> sendGuiElementDisplayPacket(ctx,7,true)))
+                                .then(literal("experience").executes(ctx-> sendGuiElementDisplayPacket(ctx,8,true)))
+                                .then(literal("health").executes(ctx-> sendGuiElementDisplayPacket(ctx,9,true)))
+                                .then(literal("armor").executes(ctx-> sendGuiElementDisplayPacket(ctx,10,true)))
+                                .then(literal("air").executes(ctx-> sendGuiElementDisplayPacket(ctx,11,true)))
+                                .then(literal("mountHealth").executes(ctx-> sendGuiElementDisplayPacket(ctx,12,true)))
+                                .then(literal("food").executes(ctx-> sendGuiElementDisplayPacket(ctx,13,true)))
+                                .then(literal("scoreboardSidebar").executes(ctx-> sendGuiElementDisplayPacket(ctx,14,true)))
+                                .then(literal("bossbars").executes(ctx-> sendGuiElementDisplayPacket(ctx,15,true)))
+                                .then(literal("chat").executes(ctx-> sendGuiElementDisplayPacket(ctx,16,true)))
+                                .then(literal("playerList").executes(ctx-> sendGuiElementDisplayPacket(ctx,17,true)))
+                                .then(literal("misc").executes(ctx-> sendGuiElementDisplayPacket(ctx,18,true)))
                         )
         ));
         dispatcher.register(literal("sky")
@@ -249,8 +285,19 @@ public class INTERDIM_ServerCommandHandler {
                                         .then(argument("red", FloatArgumentType.floatArg(0,1))
                                                 .then(argument("green", FloatArgumentType.floatArg(0,1))
                                                         .then(argument("blue", FloatArgumentType.floatArg(0,1))
-                                                                .executes(INTERDIM_ServerCommandHandler::sendSkyPacket))))))
-                        .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendSkyResetPacket)))
+                                                                .executes(INTERDIM_ServerCommandHandler::sendSkyColorPacket))))))
+                        .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendSkyColorResetPacket)))
+                )
+                .then(literal("display")
+                        .then(literal("set")
+                                .then(argument("targets", EntityArgumentType.players())
+                                        .then(argument("sunSize", FloatArgumentType.floatArg(0))
+                                                .then(argument("moonSize", FloatArgumentType.floatArg(0))
+                                                        .then(argument("starsBrightness", FloatArgumentType.floatArg(0,1))
+                                                                .then(argument("showClouds", BoolArgumentType.bool())
+                                                                        .executes(INTERDIM_ServerCommandHandler::sendSkyDisplayPacket))))))
+                        )
+                        .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendSkyDisplayResetPacket)))
                 )
         );
     }

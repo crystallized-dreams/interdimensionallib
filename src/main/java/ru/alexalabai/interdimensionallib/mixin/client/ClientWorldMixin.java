@@ -12,7 +12,7 @@ import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 public class ClientWorldMixin {
     @Inject(method="getSkyColor", at=@At("RETURN"), cancellable=true)
     void getSkyColor$interdim(CallbackInfoReturnable<Vec3d> info) {
-        if(!ClientRendererConfig.Sky.override) return;
+        if(!ClientRendererConfig.Sky.overrideColor) return;
         info.setReturnValue(ClientRendererConfig.Sky.color);
     }
 }
