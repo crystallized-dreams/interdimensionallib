@@ -9,6 +9,9 @@
     "client.ClientWorldMixin",
     "client.DebugHudMixin",
     "client.GuiMixin",
+    "client.OptionWidgetEntryMixin",
+    "client.SimpleOptionMixin",
+    "client.SliderWidgetMixin",
     "client.WorldRendererMixin"
   ],
   "server": [],

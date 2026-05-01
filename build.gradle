@@ -41,6 +41,10 @@ dependencies {
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}+${project.minecraft_version}"
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/interdimensionallib.accesswidener")
+}
+
 processResources {
 	inputs.property "version", project.version
 
