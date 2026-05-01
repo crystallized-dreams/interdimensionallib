@@ -14,7 +14,9 @@
 	"icon": "assets/interdimensionallib/icon.png",
 	"environment": "*",
 	"custom": {
-		"modmenu:library": true
+		"modmenu": {
+			"badges": [ "library" ]
+		}
 	},
 	"entrypoints": {
 		"main": ["ru.alexalabai.interdimensionallib.InterdimensionalLib"],

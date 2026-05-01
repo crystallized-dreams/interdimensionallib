@@ -1,4 +1,5 @@
 [![](https://jitpack.io/v/crystallized-dreams/interdimensionallib.svg)](https://jitpack.io/#crystallized-dreams/interdimensionallib)
+![Banner](docs/banner.png)
 # InterdimensionalLib
 Library for all my mods :P
 ## About
