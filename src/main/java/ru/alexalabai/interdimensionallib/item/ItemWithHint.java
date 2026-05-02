@@ -20,9 +20,13 @@ public class ItemWithHint extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext ctx, List<Text> tooltip, TooltipType type) {
         beforeHint(stack,ctx,tooltip);
-        boolean hintActive=Screen.hasShiftDown();
-        tooltip.add(Text.translatable(hintActive?"text.interdimensionallib.hide_hint":"text.interdimensionallib.hint",
-                "Shift").formatted(hintActive?Formatting.GOLD:Formatting.YELLOW));
+        if(Screen.hasShiftDown()) {
+            showHint(stack,ctx,tooltip);
+            tooltip.add(Text.translatable("text.interdimensionallib.hide_hint",
+                    "Shift").formatted(Formatting.YELLOW));
+        } else
+            tooltip.add(Text.translatable("text.interdimensionallib.hint",
+                    "Shift").formatted(Formatting.YELLOW));
         super.appendTooltip(stack, ctx, tooltip, type);
     }
 
