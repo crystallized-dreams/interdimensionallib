@@ -6,6 +6,10 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+base {
+	archivesName = project.archives_base_name
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
@@ -73,11 +77,6 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.name}"}
 	}
-	archiveClassifier = "dev"
-}
-
-remapJar {
-	archiveClassifier = null
 }
 
 // configure the maven publication
