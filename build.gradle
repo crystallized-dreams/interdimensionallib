@@ -77,6 +77,11 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.name}"}
 	}
+	archiveClassifier = "dev"
+}
+
+remapJar {
+	archiveClassifier = null
 }
 
 // configure the maven publication

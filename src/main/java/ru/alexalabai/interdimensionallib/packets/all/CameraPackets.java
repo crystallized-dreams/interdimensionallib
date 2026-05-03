@@ -69,13 +69,12 @@ public class CameraPackets {
             return ID;
         }
     }
-    public record CameraPositionPayload(float x, float y, float z, boolean fixed, float time, int easing) implements CustomPayload {
+    public record CameraPositionPayload(double x, double y, double z, float time, int easing) implements CustomPayload {
         public static final Id<CameraPositionPayload> ID = new Id<>(INTERDIM_ServerPackets.CAMERA_POSITION_PACKET);
         public static final PacketCodec<RegistryByteBuf, CameraPositionPayload> CODEC = PacketCodec.tuple(
-                PacketCodecs.FLOAT, CameraPositionPayload::x,
-                PacketCodecs.FLOAT, CameraPositionPayload::y,
-                PacketCodecs.FLOAT, CameraPositionPayload::z,
-                PacketCodecs.BOOL, CameraPositionPayload::fixed,
+                PacketCodecs.DOUBLE, CameraPositionPayload::x,
+                PacketCodecs.DOUBLE, CameraPositionPayload::y,
+                PacketCodecs.DOUBLE, CameraPositionPayload::z,
                 PacketCodecs.FLOAT, CameraPositionPayload::time,
                 PacketCodecs.INTEGER, CameraPositionPayload::easing,
                 CameraPositionPayload::new

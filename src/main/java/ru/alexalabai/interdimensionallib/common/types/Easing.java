@@ -27,5 +27,52 @@ public enum Easing {
     private Function<Double, Double> func;
     Easing(Function<Double, Double> func) { this.func=func; }
 
+    public static Easing fromId(int easing) {
+        return switch (easing){
+            case 1->QUAD_IN;
+            case 2->QUAD_OUT;
+            case 3->QUAD_IN_OUT;
+            case 4->CUBIC_IN;
+            case 5->CUBIC_OUT;
+            case 6->CUBIC_IN_OUT;
+            case 7->QUART_IN;
+            case 8->QUART_OUT;
+            case 9->QUART_IN_OUT;
+            case 10->SINE_IN;
+            case 11->SINE_OUT;
+            case 12->SINE_IN_OUT;
+            case 13->EXPO_IN;
+            case 14->EXPO_OUT;
+            case 15->EXPO_IN_OUT;
+            case 16->CIRC_IN;
+            case 17->CIRC_OUT;
+            case 18->CIRC_IN_OUT;
+            default->LINEAR;
+        };
+    }
+    public static int toId(Easing easing) {
+        return switch (easing){
+            case QUAD_IN->1;
+            case QUAD_OUT->2;
+            case QUAD_IN_OUT->3;
+            case CUBIC_IN->4;
+            case CUBIC_OUT->5;
+            case CUBIC_IN_OUT->6;
+            case QUART_IN->7;
+            case QUART_OUT->8;
+            case QUART_IN_OUT->9;
+            case SINE_IN->10;
+            case SINE_OUT->11;
+            case SINE_IN_OUT->12;
+            case EXPO_IN->13;
+            case EXPO_OUT->14;
+            case EXPO_IN_OUT->15;
+            case CIRC_IN->16;
+            case CIRC_OUT->17;
+            case CIRC_IN_OUT->18;
+            default->0;
+        };
+    }
+
     public double apply(double val) { return func.apply(Math.clamp(val,-1,1)); }
 }

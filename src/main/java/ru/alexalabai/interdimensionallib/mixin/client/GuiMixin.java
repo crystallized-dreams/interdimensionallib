@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import ru.alexalabai.interdimensionallib.client.ClientCameraState;
 import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 
 @Environment(EnvType.CLIENT)
@@ -21,7 +22,18 @@ import ru.alexalabai.interdimensionallib.client.ClientRendererConfig;
 public class GuiMixin {
     @Inject(method = "renderMiscOverlays", at = @At("HEAD"), cancellable = true)
     void renderMiscOverlays$dimlim(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
-        if(!ClientRendererConfig.Gui.shouldRenderMisc) info.cancel();
+        if(!ClientRendererConfig.Gui.shouldRenderMisc) {info.cancel();return;}
+        ClientCameraState state = ClientCameraState.INSTANCE;
+        if (state.isFading()) {
+            float alpha = state.getFadeA();
+            if(alpha>0f) {
+                int a=(int)(alpha * 255) << 24;
+                int r=(int)(state.getFadeR() * 255) << 16;
+                int g=(int)(state.getFadeG() * 255) << 8;
+                int b=(int)(state.getFadeB() * 255);
+                context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), a|r|g|b);
+            }
+        }
     }
     @Inject(method = "renderOverlayMessage", at = @At("HEAD"), cancellable = true)
     void renderOverlayMessage$dimlim(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
