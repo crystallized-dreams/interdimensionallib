@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "ru.alexalabai.interdimensionallib.mixin",
+  "package": "ru.crystallized_dreams.interdimensionallib.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "CameraShakeMixin",

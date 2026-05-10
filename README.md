@@ -3,9 +3,9 @@
 [![Fabric](https://img.shields.io/badge/Fabric-blue?logoColor=ccc)](https://fabricmc.net/)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 # InterdimensionalLib
-Library for all my mods :P
+Library for all our mods :P
 ## About
-Provides most overused functions that I need for the **_mods_**.
+Provides most overused functions that are needed for the **_mods_**.
 ## Included
 - **Grindstone Polish Recipe**  
     Custom recipes for right-clicking grindstone.

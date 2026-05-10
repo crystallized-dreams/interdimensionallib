@@ -20,9 +20,9 @@
 	},
 	"accessWidener": "interdimensionallib.accesswidener",
 	"entrypoints": {
-		"main": ["ru.alexalabai.interdimensionallib.InterdimensionalLib"],
-		"client": ["ru.alexalabai.interdimensionallib.client.InterdimensionalLibClient"],
-		"emi": ["ru.alexalabai.interdimensionallib.emi.INTERDIM_EmiIntegration"]
+		"main": ["ru.crystallized_dreams.interdimensionallib.InterdimensionalLib"],
+		"client": ["ru.crystallized_dreams.interdimensionallib.client.InterdimensionalLibClient"],
+		"emi": ["ru.crystallized_dreams.interdimensionallib.emi.INTERDIM_EmiIntegration"]
 	},
 	"mixins": [
 		"interdimensionallib.mixins.json"

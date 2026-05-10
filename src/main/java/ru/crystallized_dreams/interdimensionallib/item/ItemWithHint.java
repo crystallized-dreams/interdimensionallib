@@ -1,0 +1,35 @@
+package ru.crystallized_dreams.interdimensionallib.item;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+
+import java.util.List;
+
+public class ItemWithHint extends Item {
+    public ItemWithHint(Settings settings) {
+        super(settings);
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext ctx, List<Text> tooltip, TooltipType type) {
+        beforeHint(stack,ctx,tooltip);
+        if(Screen.hasShiftDown()) {
+            showHint(stack,ctx,tooltip);
+            tooltip.add(Text.translatable("text.interdimensionallib.hide_hint",
+                    "Shift").formatted(Formatting.YELLOW));
+        } else
+            tooltip.add(Text.translatable("text.interdimensionallib.hint",
+                    "Shift").formatted(Formatting.YELLOW));
+        super.appendTooltip(stack, ctx, tooltip, type);
+    }
+
+    public void beforeHint(ItemStack stack, TooltipContext ctx, List<Text> tooltip) { }
+    public void showHint(ItemStack stack, TooltipContext ctx, List<Text> tooltip) { }
+}
