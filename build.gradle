@@ -17,13 +17,16 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	// Cloth Config.
-	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
-	// EMI.
 	maven {
 		name = "TerraformersMC"
 		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = 'Modrinth'
+		url = 'https://api.modrinth.com/maven'
+		content {
+			includeGroup 'maven.modrinth'
+		}
 	}
 }
 
@@ -36,13 +39,18 @@ dependencies {
 	// Fabric API.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	// Cloth Config.
-	modImplementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
+	modImplementation "maven.modrinth:cloth-config:${project.cloth_config_version}+fabric"
+	// MixinConstraints
+	include(implementation("com.moulberry:mixinconstraints:${project.mixin_constraints_version}"))
 	// Mod menu.
-	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
-	modLocalRuntime "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	modCompileOnly "maven.modrinth:modmenu:${project.mod_menu_version}"
+	modLocalRuntime "maven.modrinth:modmenu:${project.mod_menu_version}"
 	// EMI.
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}+${project.minecraft_version}:api"
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}+${project.minecraft_version}"
+	// Sodium.
+	modCompileOnly "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
+	modRuntimeOnly "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
 }
 
 loom {

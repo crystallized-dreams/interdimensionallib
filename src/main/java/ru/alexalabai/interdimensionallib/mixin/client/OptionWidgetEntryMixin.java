@@ -9,7 +9,6 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import org.spongepowered.asm.mixin.Unique;

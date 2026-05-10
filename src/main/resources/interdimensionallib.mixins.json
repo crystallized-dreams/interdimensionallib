@@ -15,6 +15,7 @@
     "client.OptionWidgetEntryMixin",
     "client.SimpleOptionMixin",
     "client.SliderWidgetMixin",
+    "client.sodium.OptionImplMixin",
     "client.WorldRendererMixin"
   ],
   "server": [],
@@ -29,6 +30,7 @@
     "PiglinBrainMixin",
     "VanillaBiomeParametersMixin"
   ],
+  "plugin": "com.moulberry.mixinconstraints.ConstraintsMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }

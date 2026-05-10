@@ -3,7 +3,9 @@
   "text.interdimensionallib.hide_hint": "\uD83D\uDEC8 Release %s to hide",
   "text.interdimensionallib.option_locked": "This option is locked and can't be changed",
 
-  "tag.kaban-central.piglins_love_armor": "Piglin loved armor",
-  "tag.kaban-central.villagers_follow": "Villagers follow",
-  "tag.kaban-central.scaffolding_blocks": "Scaffolding blocks"
+  "tag.interdimensionallib.piglins_love_armor": "Piglin loved armor",
+  "tag.interdimensionallib.villagers_follow": "Villagers follow",
+  "tag.interdimensionallib.scaffolding_blocks": "Scaffolding blocks",
+
+  "emi.category.interdimensionallib.grindstone_polish_ctg": "Manual Polish"
 }

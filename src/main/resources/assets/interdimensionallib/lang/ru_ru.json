@@ -3,7 +3,9 @@
   "text.interdimensionallib.hide_hint": "\uD83D\uDEC8 Отпустите %s, чтобы скрыть",
   "text.interdimensionallib.option_locked": "Данная опция фиксирована и её нельзя изменить",
 
-  "tag.kaban-central.piglins_love_armor": "Броня, нравищаяся пиглинам",
-  "tag.kaban-central.villagers_follow": "Нравится жителям",
-  "tag.kaban-central.scaffolding_blocks": "Блоки подмостков"
+  "tag.interdimensionallib.piglins_love_armor": "Броня, нравищаяся пиглинам",
+  "tag.interdimensionallib.villagers_follow": "Нравится жителям",
+  "tag.interdimensionallib.scaffolding_blocks": "Блоки подмостков",
+
+  "emi.category.interdimensionallib.grindstone_polish_ctg": "Ручная полировка"
 }
