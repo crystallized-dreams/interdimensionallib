@@ -42,7 +42,7 @@ public abstract class GrindstoneBlockMixin extends Block {
         world.playSound(null,pos,SoundEvents.BLOCK_GRINDSTONE_USE,SoundCategory.BLOCKS);
     }
 
-    @Override
+    @Unique @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(player.getItemCooldownManager().isCoolingDown(stack.getItem())) return ItemActionResult.FAIL;
         SingleStackRecipeInput input=new SingleStackRecipeInput(stack);

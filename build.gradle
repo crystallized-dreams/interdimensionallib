@@ -50,7 +50,7 @@ dependencies {
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}+${project.minecraft_version}"
 	// Sodium.
 	modCompileOnly "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
-	modRuntimeOnly "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
+	modLocalRuntime "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
 }
 
 loom {
