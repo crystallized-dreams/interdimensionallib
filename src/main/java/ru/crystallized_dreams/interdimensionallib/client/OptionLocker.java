@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.option.SimpleOption;
 import org.jetbrains.annotations.NotNull;
 import ru.crystallized_dreams.interdimensionallib.InterdimensionalLib;
+import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ClientModConfig;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -57,9 +58,18 @@ public class OptionLocker {
         return LOCKED_OPTIONS.containsKey(OPTIONS_KEYS.get(option));
     }
     public static void addOption(SimpleOption<?> option, String id) {
-        if(OPTIONS_KEYS.containsKey(option)) {
-            InterdimensionalLib.LOGGER.warn("[INTERDIM]: Overriding existing option \"{}\"",id);
-            OPTIONS_KEYS.remove(option);
+        if(OPTIONS_KEYS.containsValue(id)||OPTIONS_KEYS.containsKey(option)) {
+            if(INTERDIM_ClientModConfig.INSTANCE.overrideExistingLockedOptions) {
+                InterdimensionalLib.LOGGER.warn("[INTERDIM]: Overriding existing option \"{}\"", id);
+                for (var op : OPTIONS_KEYS.entrySet())
+                    if (op.getValue().equals(id)) {
+                        OPTIONS_KEYS.remove(op.getKey());
+                        break;
+                    }
+            } else {
+                InterdimensionalLib.LOGGER.warn("[INTERDIM]: Can't override existing option \"{}\"", id);
+                return;
+            }
         }
         OPTIONS_KEYS.put(option,id);
     }
