@@ -16,7 +16,7 @@ public class INTERDIM_Recipes {
     public static final RecipeType<GrindstonePolishRecipe> GRINDSTONE_POLISH_RECIPE=register( "grindstone_polish");
 
     public static void regAll() {
-        InterdimensionalLib.LOGGER.info("[KABAN]: Registered recipes and serializers");
+        InterdimensionalLib.LOGGER.info("[INTERDIM]: Registered recipes and serializers");
     }
 
     static <T extends Recipe<?>> RecipeType<T> register(String id) {
