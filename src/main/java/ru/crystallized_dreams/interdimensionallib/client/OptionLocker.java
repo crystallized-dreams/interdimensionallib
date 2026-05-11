@@ -57,9 +57,9 @@ public class OptionLocker {
         return LOCKED_OPTIONS.containsKey(OPTIONS_KEYS.get(option));
     }
     public static void addOption(SimpleOption<?> option, String id) {
-        if(LOCKED_OPTIONS.containsKey(id)) {
+        if(OPTIONS_KEYS.containsKey(option)) {
             InterdimensionalLib.LOGGER.warn("[INTERDIM]: Overriding existing option \"{}\"",id);
-            LOCKED_OPTIONS.remove(id);
+            OPTIONS_KEYS.remove(option);
         }
         OPTIONS_KEYS.put(option,id);
     }
