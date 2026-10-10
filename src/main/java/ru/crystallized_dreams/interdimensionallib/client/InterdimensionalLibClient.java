@@ -25,6 +25,7 @@ public class InterdimensionalLibClient implements ClientModInitializer {
             ClientInputManager.INSTANCE.reset();
         });
         ClientLifecycleEvents.CLIENT_STARTED.register(client->OptionLocker.handleClientReady());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client->{INTERDIM_ClientModConfig.INSTANCE.save();});
         ShaderRegistry.load();
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES)
                 .registerReloadListener(new ShaderReloadListener());

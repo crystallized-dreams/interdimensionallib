@@ -3,6 +3,7 @@ package ru.crystallized_dreams.interdimensionallib.config;
 public class INTERDIM_ClientModConfig {
     public boolean overrideExistingLockedOptions=true;
     public boolean logActiveShaders=false;
+    public boolean campaignTitleScreen=false;
 
     /// FUNCTIONALITY ///
     public static INTERDIM_ClientModConfig INSTANCE = new INTERDIM_ClientModConfig();
