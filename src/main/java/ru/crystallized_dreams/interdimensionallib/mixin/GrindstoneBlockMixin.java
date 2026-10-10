@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import ru.crystallized_dreams.interdimensionallib.common.ItemUtils;
-import ru.crystallized_dreams.interdimensionallib.recipe.INTERDIM_Recipes;
-import ru.crystallized_dreams.interdimensionallib.recipe.all.GrindstonePolishRecipe;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Recipes;
+import ru.crystallized_dreams.interdimensionallib.content.recipe.GrindstonePolishRecipe;
 
 import java.util.Optional;
 

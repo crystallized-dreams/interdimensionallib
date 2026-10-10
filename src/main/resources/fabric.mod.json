@@ -22,7 +22,8 @@
 	"entrypoints": {
 		"main": ["ru.crystallized_dreams.interdimensionallib.InterdimensionalLib"],
 		"client": ["ru.crystallized_dreams.interdimensionallib.client.InterdimensionalLibClient"],
-		"emi": ["ru.crystallized_dreams.interdimensionallib.emi.INTERDIM_EmiIntegration"]
+		"emi": ["ru.crystallized_dreams.interdimensionallib.client.emi.INTERDIM_EmiIntegration"],
+		"jei_mod_plugin": ["ru.crystallized_dreams.interdimensionallib.client.jei.INTERDIM_JeiIntegration"]
 	},
 	"mixins": [
 		"interdimensionallib.mixins.json"

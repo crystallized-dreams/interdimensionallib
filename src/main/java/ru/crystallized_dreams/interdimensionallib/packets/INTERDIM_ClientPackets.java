@@ -2,9 +2,11 @@ package ru.crystallized_dreams.interdimensionallib.packets;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.util.math.Vec3d;
-import ru.crystallized_dreams.interdimensionallib.client.ClientCameraState;
-import ru.crystallized_dreams.interdimensionallib.client.ClientRendererConfig;
-import ru.crystallized_dreams.interdimensionallib.client.ScreenShakeHandler;
+import ru.crystallized_dreams.interdimensionallib.client.render.ClientCameraState;
+import ru.crystallized_dreams.interdimensionallib.client.ClientInputManager;
+import ru.crystallized_dreams.interdimensionallib.client.render.ClientRendererConfig;
+import ru.crystallized_dreams.interdimensionallib.client.render.ScreenShakeHandler;
+import ru.crystallized_dreams.interdimensionallib.client.render.shader.ShaderHandler;
 import ru.crystallized_dreams.interdimensionallib.common.types.Easing;
 import ru.crystallized_dreams.interdimensionallib.packets.all.*;
 
@@ -94,6 +96,8 @@ public class INTERDIM_ClientPackets {
                     ClientRendererConfig.Sky.starsBrightness=payload.starsBrightness();
                     ClientRendererConfig.Sky.showClouds=payload.showClouds();
                 }));
+        ClientPlayNetworking.registerGlobalReceiver(InputPackets.LockInputs.ID, (payload, ctx)->
+                ctx.client().execute(()->ClientInputManager.INSTANCE.setKeyBindsLock(!payload.unlock())));
         ClientPlayNetworking.registerGlobalReceiver(CameraPackets.CameraResetPayload.ID, (payload, context)->
                 context.client().execute(ClientCameraState.INSTANCE::reset));
         ClientPlayNetworking.registerGlobalReceiver(CameraPackets.CameraFadePayload.ID, (payload, context)->
@@ -108,5 +112,7 @@ public class INTERDIM_ClientPackets {
                 context.client().execute(()->ClientCameraState.INSTANCE.setPosition(payload.x(), payload.y(), payload.z(), payload.time(), Easing.fromId(payload.easing()))));
         ClientPlayNetworking.registerGlobalReceiver(CameraPackets.CameraRotationPayload.ID, (payload, context)->
                 context.client().execute(()->ClientCameraState.INSTANCE.setRotation(payload.pitch(), payload.yaw(), payload.roll(), payload.fixed(), payload.time(), Easing.fromId(payload.easing()))));
+        ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.SetActive.ID, (payload, context)->
+                context.client().execute(()->ShaderHandler.getInstance().setActive(payload.name(), payload.active())));
     }
 }

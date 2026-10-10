@@ -1,0 +1,10 @@
+{
+  "targets": [],
+  "passes": [
+    {
+      "program": "grayscale",
+      "input": "minecraft:main",
+      "output": "minecraft:main"
+    }
+  ]
+}

@@ -18,9 +18,9 @@ public class MathUtils {
         return a.add(b.subtract(a).multiply(t));
     }
     public static float valueNoise(float x, float y, float z) {
-        int x0 =(int)Math.floor(x);
-        int y0 =(int)Math.floor(y);
-        int z0 =(int)Math.floor(z);
+        int x0 = (int)Math.floor(x);
+        int y0 = (int)Math.floor(y);
+        int z0 = (int)Math.floor(z);
         float dx = smoothStep(x - (float)x0);
         float dy = smoothStep(y - (float)y0);
         float dz = smoothStep(z - (float)z0);

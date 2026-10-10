@@ -7,5 +7,8 @@
   "tag.interdimensionallib.villagers_follow": "Нравится жителям",
   "tag.interdimensionallib.scaffolding_blocks": "Блоки подмостков",
 
-  "emi.category.interdimensionallib.grindstone_polish_ctg": "Ручная полировка"
+  "emi.category.interdimensionallib.grindstone_polish_ctg": "Ручная полировка",
+  "emi.category.interdimensionallib.anvil_crush_ctg": "Удар наковальней",
+  "jei.category.interdimensionallib.grindstone_polish": "Ручная полировка",
+  "jei.category.interdimensionallib.anvil_crush": "Удар наковальней"
 }

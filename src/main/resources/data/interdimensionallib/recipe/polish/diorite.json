@@ -1,0 +1,9 @@
+{
+  "type": "interdimensionallib:grindstone_polish",
+  "input": {
+    "item": "minecraft:diorite"
+  },
+  "output": {
+    "id": "minecraft:polished_diorite"
+  }
+}

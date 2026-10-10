@@ -1,0 +1,9 @@
+{
+  "type": "interdimensionallib:grindstone_polish",
+  "input": {
+    "item": "minecraft:tuff"
+  },
+  "output": {
+    "id": "minecraft:polished_tuff"
+  }
+}

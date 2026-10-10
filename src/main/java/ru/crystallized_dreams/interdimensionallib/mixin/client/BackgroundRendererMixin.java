@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.crystallized_dreams.interdimensionallib.client.ClientRendererConfig;
+import ru.crystallized_dreams.interdimensionallib.client.render.ClientRendererConfig;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BackgroundRenderer.class)

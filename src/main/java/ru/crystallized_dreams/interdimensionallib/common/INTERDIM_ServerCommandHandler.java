@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
@@ -307,6 +308,40 @@ public class INTERDIM_ServerCommandHandler {
         }
         return -1;
     }
+    private static int sendInputLockPacket(CommandContext<ServerCommandSource> ctx, boolean t) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            InputPackets.LockInputs payload=new InputPackets.LockInputs(t);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
+
+    private static int sendShaderActivity(CommandContext<ServerCommandSource> ctx, boolean enable, String name) {
+        try {
+            var targets=EntityArgumentType.getPlayers(ctx,"targets");
+            //String name=StringArgumentType.getString(ctx,"name");
+            if(targets==null||targets.isEmpty()) {
+                ctx.getSource().sendError(Text.of("No targets found"));
+                return -1;
+            }
+            ShaderPayloads.SetActive payload=new ShaderPayloads.SetActive(name, enable);
+            for(ServerPlayerEntity target : targets)
+                ServerPlayNetworking.send(target, payload);
+            return 0;
+        } catch (CommandSyntaxException e) {
+            ctx.getSource().sendError(Text.of(e.getMessage()));
+        }
+        return -1;
+    }
 
     public static void regArgTypes() {
         ArgumentTypeRegistry.registerArgumentType(
@@ -334,6 +369,14 @@ public class INTERDIM_ServerCommandHandler {
                         return 1;
                     }))
                 )
+        );
+        dispatcher.register(literal("input").requires(src->src.hasPermissionLevel(1))
+                .then(literal("lock")
+                        .then(argument("targets", EntityArgumentType.players())
+                                .executes(ctx->sendInputLockPacket(ctx, false))))
+                .then(literal("unlock")
+                        .then(argument("targets", EntityArgumentType.players())
+                                .executes(ctx->sendInputLockPacket(ctx, true))))
         );
         dispatcher.register(literal("camera").requires(src->src.hasPermissionLevel(1))
                 .then(literal("shake")
@@ -466,6 +509,14 @@ public class INTERDIM_ServerCommandHandler {
                         )
                         .then(literal("reset").then(argument("targets", EntityArgumentType.players()).executes(INTERDIM_ServerCommandHandler::sendSkyDisplayResetPacket)))
                 )
+        );
+        dispatcher.register(literal("shader")
+                .then(literal("add").then(argument("targets", EntityArgumentType.players()).then(
+                        literal("interdimensionallib:grayscale").executes(ctx->sendShaderActivity(ctx,true,"interdimensionallib:grayscale"))
+                )))
+                .then(literal("remove").then(argument("targets", EntityArgumentType.players()).then(
+                        literal("interdimensionallib:grayscale").executes(ctx->sendShaderActivity(ctx,false,"interdimensionallib:grayscale"))
+                )))
         );
     }
 }

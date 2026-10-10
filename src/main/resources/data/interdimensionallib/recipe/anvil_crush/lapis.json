@@ -1,0 +1,10 @@
+{
+  "type": "interdimensionallib:anvil_crush",
+  "input": {
+    "item": "minecraft:lapis_block"
+  },
+  "output": {
+    "id": "minecraft:lapis_lazuli",
+    "count": 9
+  }
+}

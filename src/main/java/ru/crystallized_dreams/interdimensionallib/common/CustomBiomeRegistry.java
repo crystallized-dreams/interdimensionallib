@@ -5,6 +5,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil.ParameterRange;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,8 @@ public class CustomBiomeRegistry {
     ) {
         register(temperature, humidity, FULL_RANGE, FULL_RANGE, DEPTH_FULL_CAVES, FULL_RANGE, biome);
     }
+    /**This is internal method. Don't use it.*/
+    @ApiStatus.Internal @Deprecated(since = "INTERNAL")
     public static void injectAll(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters) {
         for (CustomBiomeEntry entry : ENTRIES) {
             if (entry.biome() == null) continue;

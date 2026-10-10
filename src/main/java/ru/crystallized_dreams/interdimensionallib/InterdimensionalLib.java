@@ -10,7 +10,7 @@ import ru.crystallized_dreams.interdimensionallib.common.HelperTags;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_ServerCommandHandler;
 import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ModConfig;
 import ru.crystallized_dreams.interdimensionallib.packets.INTERDIM_ServerPackets;
-import ru.crystallized_dreams.interdimensionallib.recipe.INTERDIM_Recipes;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Recipes;
 
 public class InterdimensionalLib implements ModInitializer {
 	public static final String MOD_ID = "interdimensionallib";

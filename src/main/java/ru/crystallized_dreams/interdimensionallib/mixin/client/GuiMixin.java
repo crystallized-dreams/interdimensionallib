@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.crystallized_dreams.interdimensionallib.client.ClientCameraState;
-import ru.crystallized_dreams.interdimensionallib.client.ClientRendererConfig;
+import ru.crystallized_dreams.interdimensionallib.client.render.ClientCameraState;
+import ru.crystallized_dreams.interdimensionallib.client.render.ClientRendererConfig;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = InGameHud.class, priority = 996699)

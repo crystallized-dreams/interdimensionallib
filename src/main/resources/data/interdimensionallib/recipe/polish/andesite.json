@@ -1,0 +1,9 @@
+{
+  "type": "interdimensionallib:grindstone_polish",
+  "input": {
+    "item": "minecraft:andesite"
+  },
+  "output": {
+    "id": "minecraft:polished_andesite"
+  }
+}

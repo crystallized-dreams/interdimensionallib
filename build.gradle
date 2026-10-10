@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -28,6 +29,14 @@ repositories {
 			includeGroup 'maven.modrinth'
 		}
 	}
+	maven {
+		name = "Jared's maven"
+		url = "https://maven.blamejared.com/"
+	}
+	maven {
+		name = "ModMaven"
+		url = "https://modmaven.dev"
+	}
 }
 
 dependencies {
@@ -51,6 +60,9 @@ dependencies {
 	// Sodium.
 	modCompileOnly "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
 	modLocalRuntime "maven.modrinth:sodium:mc${project.minecraft_version}-${project.sodium_version}-fabric"
+	// JEI.
+	modCompileOnly("mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}")
+	modLocalRuntime("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
 }
 
 loom {
@@ -106,5 +118,20 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+modrinth {
+	token = System.getenv("MODRINTH_TOKEN")
+	projectId = "interdimensionallib"
+	versionNumber = "${project.version}"
+	versionType = "release" // `release`, `beta` or `alpha`
+	uploadFile = remapJar
+	gameVersions = ["1.21", "1.21.1"]
+	loaders = ["fabric", "quilt"]
+	dependencies {
+		required.project "fabric-api"
+		required.project "cloth-config"
+		optional.version "sodium", "mc${project.minecraft_version}-${project.sodium_version}-fabric"
 	}
 }

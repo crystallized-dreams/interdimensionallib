@@ -20,6 +20,9 @@ public class INTERDIM_ServerPackets {
     public static final Identifier CAMERA_FOV_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "camera_fov");
     public static final Identifier CAMERA_POSITION_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "camera_position");
     public static final Identifier CAMERA_ROTATION_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "camera_rotation");
+    public static final Identifier CAMERA_ANGLE_LIMIT_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "camera_angle_limit");
+    public static final Identifier INPUT_LOCK_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "input_lock");
+    public static final Identifier SHADER_ACTIVITY_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "shader_activity");
     public static void regAll() {
         PayloadTypeRegistry.playC2S().register(GRIP.ID, GRIP.CODEC);
         InterdimensionalLib.LOGGER.info("[INTERDIM]: Registered client packet payloads (C2S)");
@@ -35,6 +38,8 @@ public class INTERDIM_ServerPackets {
         PayloadTypeRegistry.playS2C().register(CameraPackets.CameraFovPayload.ID, CameraPackets.CameraFovPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(CameraPackets.CameraPositionPayload.ID, CameraPackets.CameraPositionPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(CameraPackets.CameraRotationPayload.ID, CameraPackets.CameraRotationPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(InputPackets.LockInputs.ID, InputPackets.LockInputs.CODEC);
+        PayloadTypeRegistry.playS2C().register(ShaderPayloads.SetActive.ID, ShaderPayloads.SetActive.CODEC);
         InterdimensionalLib.LOGGER.info("[INTERDIM]: Registered client packet payloads (S2C)");
         ServerPlayNetworking.registerGlobalReceiver(GRIP.ID, (payload, ctx)-> {
             InterdimensionalLib.LOGGER.info("[INTERDIM]: Client tried to request data by using GRIP");

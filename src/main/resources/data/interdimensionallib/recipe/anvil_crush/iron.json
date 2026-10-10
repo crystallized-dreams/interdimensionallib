@@ -1,0 +1,10 @@
+{
+  "type": "interdimensionallib:anvil_crush",
+  "input": {
+    "item": "minecraft:iron_block"
+  },
+  "output": {
+    "id": "minecraft:iron_ingot",
+    "count": 9
+  }
+}

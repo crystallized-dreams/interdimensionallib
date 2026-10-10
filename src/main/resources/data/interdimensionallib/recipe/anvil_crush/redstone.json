@@ -1,0 +1,10 @@
+{
+  "type": "interdimensionallib:anvil_crush",
+  "input": {
+    "item": "minecraft:redstone_block"
+  },
+  "output": {
+    "id": "minecraft:redstone",
+    "count": 9
+  }
+}

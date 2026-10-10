@@ -7,5 +7,8 @@
   "tag.interdimensionallib.villagers_follow": "Villagers follow",
   "tag.interdimensionallib.scaffolding_blocks": "Scaffolding blocks",
 
-  "emi.category.interdimensionallib.grindstone_polish_ctg": "Manual Polish"
+  "emi.category.interdimensionallib.grindstone_polish_ctg": "Manual Polish",
+  "emi.category.interdimensionallib.anvil_crush_ctg": "Anvil Crush",
+  "jei.category.interdimensionallib.grindstone_polish": "Manual Polish",
+  "jei.category.interdimensionallib.anvil_crush": "Anvil Crush"
 }

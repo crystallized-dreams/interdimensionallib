@@ -1,0 +1,10 @@
+{
+  "type": "interdimensionallib:anvil_crush",
+  "input": {
+    "item": "minecraft:diamond_block"
+  },
+  "output": {
+    "id": "minecraft:diamond",
+    "count": 9
+  }
+}

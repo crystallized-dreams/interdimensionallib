@@ -1,0 +1,10 @@
+{
+  "type": "interdimensionallib:anvil_crush",
+  "input": {
+    "item": "minecraft:emerald_block"
+  },
+  "output": {
+    "id": "minecraft:emerald",
+    "count": 9
+  }
+}

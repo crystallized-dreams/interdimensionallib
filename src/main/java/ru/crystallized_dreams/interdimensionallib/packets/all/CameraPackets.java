@@ -85,6 +85,19 @@ public class CameraPackets {
             return ID;
         }
     }
+    public record CameraAngleLimitPayload(float pitch, float yaw) implements CustomPayload {
+        public static final Id<CameraAngleLimitPayload> ID = new Id<>(INTERDIM_ServerPackets.CAMERA_ANGLE_LIMIT_PACKET);
+        public static final PacketCodec<RegistryByteBuf, CameraAngleLimitPayload> CODEC = PacketCodec.tuple(
+                PacketCodecs.FLOAT, CameraAngleLimitPayload::pitch,
+                PacketCodecs.FLOAT, CameraAngleLimitPayload::yaw,
+                CameraAngleLimitPayload::new
+        );
+
+        @Override
+        public Id<? extends CustomPayload> getId() {
+            return ID;
+        }
+    }
     public record CameraRotationPayload(float pitch, float yaw, float roll, boolean fixed, float time, int easing) implements CustomPayload {
         public static final Id<CameraRotationPayload> ID = new Id<>(INTERDIM_ServerPackets.CAMERA_ROTATION_PACKET);
         public static final PacketCodec<RegistryByteBuf, CameraRotationPayload> CODEC = PacketCodec.tuple(
