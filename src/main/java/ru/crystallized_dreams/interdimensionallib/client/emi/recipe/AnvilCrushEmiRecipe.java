@@ -17,7 +17,7 @@ import ru.crystallized_dreams.interdimensionallib.content.recipe.GrindstonePolis
 import java.util.List;
 
 public class AnvilCrushEmiRecipe implements EmiRecipe {
-    public static final EmiStack WORKSTATION=EmiStack.of(Items.GRINDSTONE);
+    public static final EmiStack WORKSTATION=EmiStack.of(Items.ANVIL);
     public static final EmiRecipeCategory CATEGORY=
             new EmiRecipeCategory(Identifier.of(InterdimensionalLib.MOD_ID,"anvil_crush_ctg"),WORKSTATION);
 

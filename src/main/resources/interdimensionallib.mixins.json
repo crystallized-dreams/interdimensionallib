@@ -19,8 +19,6 @@
     "client.SimpleOptionMixin",
     "client.SliderWidgetMixin",
     "client.WorldRendererMixin",
-    "client.campaign_ui.SelectWorldScreenMixin",
-    "client.campaign_ui.TitleScreenMixin",
     "client.sodium.OptionImplMixin"
   ],
   "server": [],
