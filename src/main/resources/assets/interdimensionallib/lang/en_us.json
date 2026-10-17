@@ -10,5 +10,13 @@
   "emi.category.interdimensionallib.grindstone_polish_ctg": "Manual Polish",
   "emi.category.interdimensionallib.anvil_crush_ctg": "Anvil Crush",
   "jei.category.interdimensionallib.grindstone_polish": "Manual Polish",
-  "jei.category.interdimensionallib.anvil_crush": "Anvil Crush"
+  "jei.category.interdimensionallib.anvil_crush": "Anvil Crush",
+
+  "block.interdimensionallib.barrier_pane": "Barrier Pane",
+  "block.interdimensionallib.plushie": "Plushie",
+  "block.interdimensionallib.blank_plushie": "Blank",
+  "block.interdimensionallib.alex_alabai_plushie": "Alex Alabai",
+  "block.interdimensionallib.batoontech_plushie": "BatoonTech",
+  "block.interdimensionallib.wall_of_clouds_plushie": "WallofClouds",
+  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll"
 }

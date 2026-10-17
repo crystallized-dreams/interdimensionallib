@@ -1,0 +1,12 @@
+{
+  "block.plushie.click": {
+    "sounds": [
+      "interdimensionallib:block/plushie"
+    ]
+  },
+  "block.plushie.clown_click": {
+    "sounds": [
+      "interdimensionallib:block/clown"
+    ]
+  }
+}

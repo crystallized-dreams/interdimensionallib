@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "wide=false,facing=north": {
+      "model": "interdimensionallib:block/blank_plushie",
+      "y": 270
+    },
+    "wide=false,facing=east": {
+      "model": "interdimensionallib:block/blank_plushie"
+    },
+    "wide=false,facing=west": {
+      "model": "interdimensionallib:block/blank_plushie",
+      "y": 180
+    },
+    "wide=false,facing=south": {
+      "model": "interdimensionallib:block/blank_plushie",
+      "y": 90
+    },
+    "wide=true,facing=north": {
+      "model": "interdimensionallib:block/blank_wide_plushie",
+      "y": 270
+    },
+    "wide=true,facing=east": {
+      "model": "interdimensionallib:block/blank_wide_plushie"
+    },
+    "wide=true,facing=west": {
+      "model": "interdimensionallib:block/blank_wide_plushie",
+      "y": 180
+    },
+    "wide=true,facing=south": {
+      "model": "interdimensionallib:block/blank_wide_plushie",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "interdimensionallib:block/template_plushie",
+  "textures": {
+    "0": "interdimensionallib:block/plushie/wall_of_clouds"
+  }
+}

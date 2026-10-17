@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "interdimensionallib:block/batoontech_plushie",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "interdimensionallib:block/batoontech_plushie"
+    },
+    "facing=west": {
+      "model": "interdimensionallib:block/batoontech_plushie",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "interdimensionallib:block/batoontech_plushie",
+      "y": 90
+    }
+  }
+}

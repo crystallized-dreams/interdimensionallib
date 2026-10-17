@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "interdimensionallib:block/wall_of_clouds_plushie",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "interdimensionallib:block/wall_of_clouds_plushie"
+    },
+    "facing=west": {
+      "model": "interdimensionallib:block/wall_of_clouds_plushie",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "interdimensionallib:block/wall_of_clouds_plushie",
+      "y": 90
+    }
+  }
+}

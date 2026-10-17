@@ -1,0 +1,7 @@
+{
+  "parent": "interdimensionallib:block/template_plushie",
+  "textures": {
+    "0": "interdimensionallib:block/plushie/blank",
+    "particle": "interdimensionallib:block/plushie/blank"
+  }
+}

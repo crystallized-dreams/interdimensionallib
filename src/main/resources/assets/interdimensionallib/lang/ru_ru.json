@@ -10,5 +10,13 @@
   "emi.category.interdimensionallib.grindstone_polish_ctg": "Ручная полировка",
   "emi.category.interdimensionallib.anvil_crush_ctg": "Удар наковальней",
   "jei.category.interdimensionallib.grindstone_polish": "Ручная полировка",
-  "jei.category.interdimensionallib.anvil_crush": "Удар наковальней"
+  "jei.category.interdimensionallib.anvil_crush": "Удар наковальней",
+
+  "block.interdimensionallib.barrier_pane": "Барьерная панель",
+  "block.interdimensionallib.plushie": "Плюшевая игрушка",
+  "block.interdimensionallib.blank_plushie": "Чистая",
+  "block.interdimensionallib.alex_alabai_plushie": "Alex Alabai",
+  "block.interdimensionallib.batoontech_plushie": "BatoonTech",
+  "block.interdimensionallib.wall_of_clouds_plushie": "WallofClouds",
+  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll"
 }
