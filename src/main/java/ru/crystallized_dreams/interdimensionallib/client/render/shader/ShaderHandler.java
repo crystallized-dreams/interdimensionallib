@@ -51,6 +51,60 @@ public class ShaderHandler {
         InterdimensionalLib.LOGGER.info("[INTERDIM_CLIENT]: Shaders reloaded");
     }
 
+    public boolean setUniform(String name, String uniformName, boolean value) {
+        String targetName=name;
+        boolean found=false;
+
+        for (Shader entry : registered) {
+            if (entry.name().equalsIgnoreCase(name) || entry.name().endsWith(":" + name)) {
+                targetName=entry.name();
+                found=true;
+                break;
+            }
+        }
+        if (!found||!activeShaderNames.contains(targetName)) return false;
+        for (ShaderProgram shader : activeWorldShaders)
+            if (shader.getName().equalsIgnoreCase(targetName) || shader.getName().endsWith(":" + targetName))
+                shader.setUniform(uniformName, value);
+        return true;
+    }
+
+    public boolean setUniform(String name, String uniformName, int value) {
+        String targetName=name;
+        boolean found=false;
+
+        for (Shader entry : registered) {
+            if (entry.name().equalsIgnoreCase(name) || entry.name().endsWith(":" + name)) {
+                targetName=entry.name();
+                found=true;
+                break;
+            }
+        }
+        if (!found||!activeShaderNames.contains(targetName)) return false;
+        for (ShaderProgram shader : activeWorldShaders)
+            if (shader.getName().equalsIgnoreCase(targetName) || shader.getName().endsWith(":" + targetName))
+                shader.setUniform(uniformName, value);
+        return true;
+    }
+
+    public boolean setUniform(String name, String uniformName, float value) {
+        String targetName=name;
+        boolean found=false;
+
+        for (Shader entry : registered) {
+            if (entry.name().equalsIgnoreCase(name) || entry.name().endsWith(":" + name)) {
+                targetName=entry.name();
+                found=true;
+                break;
+            }
+        }
+        if (!found||!activeShaderNames.contains(targetName)) return false;
+        for (ShaderProgram shader : activeWorldShaders)
+            if (shader.getName().equalsIgnoreCase(targetName) || shader.getName().endsWith(":" + targetName))
+                shader.setUniform(uniformName, value);
+        return true;
+    }
+
     public boolean setActive(String name, boolean active) {
         String targetName=name;
         boolean found=false;
@@ -210,6 +264,12 @@ public class ShaderHandler {
         activePipelines.forEach(pipeline -> pipeline.resize(width, height));
         if (auxFBO!=null) auxFBO.resize(width, height, false);
         if (outFBO!=null) outFBO.resize(width, height, false);
+    }
+
+    public List<String> getRegistered() {
+        List<String> out=new ArrayList<>();
+        registered.forEach(shader->out.add(shader.name));
+        return out;
     }
 
     public enum ShaderType {

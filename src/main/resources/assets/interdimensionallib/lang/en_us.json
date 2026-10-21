@@ -18,5 +18,12 @@
   "block.interdimensionallib.alex_alabai_plushie": "Alex Alabai",
   "block.interdimensionallib.batoontech_plushie": "BatoonTech",
   "block.interdimensionallib.wall_of_clouds_plushie": "WallofClouds",
-  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll"
+  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll",
+
+  "text.interdimensionallib.plushie_screen.title": "Edit Plushie",
+  "text.interdimensionallib.plushie_screen.nickname": "Player Name",
+  "text.interdimensionallib.plushie_screen.wide_arms": "Arms: Wide",
+  "text.interdimensionallib.plushie_screen.slim_arms": "Arms: Slim",
+  "text.interdimensionallib.plushie_screen.confirm": "Confirm",
+  "text.interdimensionallib.plushie_screen.cancel": "Cancel"
 }

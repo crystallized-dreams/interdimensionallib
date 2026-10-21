@@ -4,15 +4,19 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.crystallized_dreams.interdimensionallib.common.HelperTags;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_ServerCommandHandler;
 import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ModConfig;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_BlockEntities;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Blocks;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
 import ru.crystallized_dreams.interdimensionallib.packets.INTERDIM_ServerPackets;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Recipes;
+import ru.crystallized_dreams.interdimensionallib.packets.all.ShaderPayloads;
 
 public class InterdimensionalLib implements ModInitializer {
 	public static final String MOD_ID = "interdimensionallib";
@@ -24,10 +28,14 @@ public class InterdimensionalLib implements ModInitializer {
 		LOGGER.info("[INTERDIM]: Registered server config");
 		INTERDIM_ServerCommandHandler.regArgTypes();
 		CommandRegistrationCallback.EVENT.register((dispatcher, access, env)-> INTERDIM_ServerCommandHandler.regAll(dispatcher));
+		ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) -> {
+			ServerPlayNetworking.send(handler.player, new ShaderPayloads.ClientShaderRequest());
+		}));
 		INTERDIM_ServerPackets.regAll();
 		INTERDIM_Recipes.regAll();
 		INTERDIM_DataComponents.regAll();
 		INTERDIM_Blocks.regAll();
+		INTERDIM_BlockEntities.regAll();
 		HelperTags.regAll();
 		ServerLifecycleEvents.SERVER_STOPPED.register(s->{
 			INTERDIM_ModConfig.INSTANCE.save();

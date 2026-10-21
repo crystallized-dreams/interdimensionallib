@@ -1,10 +1,10 @@
 package ru.crystallized_dreams.interdimensionallib.content.block;
 
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
@@ -25,13 +25,16 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_Sounds;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
+import ru.crystallized_dreams.interdimensionallib.content.block.entity.PlushieBlockEntity;
+import ru.crystallized_dreams.interdimensionallib.content.component.PlushieData;
 
 import java.util.List;
 
-public class PlushieBlock extends Block {
+public class PlushieBlock extends BlockWithEntity {
     public static final DirectionProperty FACING=Properties.HORIZONTAL_FACING;
     public static final BooleanProperty WIDE=BooleanProperty.of("wide");
-    public static final VoxelShape COLLIDER=Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 14.0, 12.0);
+    public static final VoxelShape COLLIDER=Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
     private final boolean clown;
     public int clicksLastMS;
     public long lastMSTime;
@@ -40,6 +43,7 @@ public class PlushieBlock extends Block {
         super(settings.nonOpaque());
         this.clown=false;
     }
+
     public PlushieBlock(Settings settings, boolean clown) {
         super(settings.nonOpaque());
         this.clown=clown;
@@ -48,9 +52,16 @@ public class PlushieBlock extends Block {
     }
 
     @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(PlushieBlock::new);
+    }
+
+    @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         super.appendTooltip(stack, context, tooltip, options);
-        tooltip.add(Text.translatable(super.getTranslationKey()).formatted(Formatting.GRAY));
+        PlushieData data=stack.get(INTERDIM_DataComponents.PLUSHIE_DATA);
+        if(data==null) tooltip.add(Text.translatable(super.getTranslationKey()).formatted(Formatting.GRAY));
+        else tooltip.add(Text.literal(data.nickname()).formatted(Formatting.GRAY));
     }
 
     @Override
@@ -106,7 +117,32 @@ public class PlushieBlock extends Block {
     }
 
     @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state,
+                         @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        if (!world.isClient()) {
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof PlushieBlockEntity plushie) {
+                PlushieData data = itemStack.get(INTERDIM_DataComponents.PLUSHIE_DATA);
+                if (data != null) {
+                    plushie.setData(data);
+                }
+            }
+        }
+    }
+
+    @Override
     protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return 1;
+    }
+
+    @Override
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new PlushieBlockEntity(pos, state);
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 }

@@ -18,5 +18,12 @@
   "block.interdimensionallib.alex_alabai_plushie": "Alex Alabai",
   "block.interdimensionallib.batoontech_plushie": "BatoonTech",
   "block.interdimensionallib.wall_of_clouds_plushie": "WallofClouds",
-  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll"
+  "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll",
+
+  "text.interdimensionallib.plushie_screen.title": "Редактировать плюшевую игрушку",
+  "text.interdimensionallib.plushie_screen.nickname": "Имя игрока",
+  "text.interdimensionallib.plushie_screen.wide_arms": "Руки: Классические",
+  "text.interdimensionallib.plushie_screen.slim_arms": "Руки: Худые",
+  "text.interdimensionallib.plushie_screen.confirm": "Подтвердить",
+  "text.interdimensionallib.plushie_screen.cancel": "Отмена"
 }

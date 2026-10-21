@@ -10,16 +10,18 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import ru.crystallized_dreams.interdimensionallib.client.screen.INTERDIM_ScreenHandlers;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
+import ru.crystallized_dreams.interdimensionallib.content.component.PlushieData;
 
 public class PlushieBlockItem extends BlockItem {
     public PlushieBlockItem(Block block, Settings settings) {
-        super(block, settings.component(INTERDIM_DataComponents.PLUSHIE_DATA, "Steve|0"));
+        super(block, settings);
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (user.isSneaking() && world.isClient) {
-            INTERDIM_ScreenHandlers.openPlushieRenameScreen();
+            INTERDIM_ScreenHandlers.openPlushieRenameScreen(user.getStackInHand(hand)
+                    .getOrDefault(INTERDIM_DataComponents.PLUSHIE_DATA, PlushieData.DEFAULT));
             return new TypedActionResult<>(ActionResult.SUCCESS, user.getStackInHand(hand));
         }
         return super.use(world, user, hand);

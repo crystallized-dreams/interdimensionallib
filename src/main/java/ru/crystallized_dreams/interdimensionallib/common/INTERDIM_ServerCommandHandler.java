@@ -7,6 +7,8 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -26,7 +28,10 @@ import ru.crystallized_dreams.interdimensionallib.common.types.Easing;
 import ru.crystallized_dreams.interdimensionallib.common.types.GrowRate;
 import ru.crystallized_dreams.interdimensionallib.packets.all.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -325,10 +330,10 @@ public class INTERDIM_ServerCommandHandler {
         return -1;
     }
 
-    private static int sendShaderActivity(CommandContext<ServerCommandSource> ctx, boolean enable, String name) {
+    private static int sendShaderActivity(CommandContext<ServerCommandSource> ctx, boolean enable) {
         try {
             var targets=EntityArgumentType.getPlayers(ctx,"targets");
-            //String name=StringArgumentType.getString(ctx,"name");
+            String name=StringArgumentType.getString(ctx,"name");
             if(targets==null||targets.isEmpty()) {
                 ctx.getSource().sendError(Text.of("No targets found"));
                 return -1;
@@ -341,6 +346,15 @@ public class INTERDIM_ServerCommandHandler {
             ctx.getSource().sendError(Text.of(e.getMessage()));
         }
         return -1;
+    }
+
+    public static final List<String> SUGGESTIBLE_SHADERS=new ArrayList<>();
+    private static CompletableFuture<Suggestions> suggestShaders(CommandContext<ServerCommandSource> ctx, SuggestionsBuilder builder) {
+        for (String fullId : SUGGESTIBLE_SHADERS) {
+            if(fullId.startsWith(builder.getRemainingLowerCase())) builder.suggest(fullId);
+        }
+        InterdimensionalLib.LOGGER.info("Can suggest {} shaders", SUGGESTIBLE_SHADERS.size());
+        return builder.buildFuture();
     }
 
     public static void regArgTypes() {
@@ -511,11 +525,13 @@ public class INTERDIM_ServerCommandHandler {
                 )
         );
         dispatcher.register(literal("shader")
-                .then(literal("add").then(argument("targets", EntityArgumentType.players()).then(
-                        literal("interdimensionallib:grayscale").executes(ctx->sendShaderActivity(ctx,true,"interdimensionallib:grayscale"))
+                .then(literal("add").then(argument("targets", EntityArgumentType.players()).then(argument("name", StringArgumentType.greedyString())
+                        .suggests(INTERDIM_ServerCommandHandler::suggestShaders)
+                        .executes(ctx->sendShaderActivity(ctx,true))
                 )))
-                .then(literal("remove").then(argument("targets", EntityArgumentType.players()).then(
-                        literal("interdimensionallib:grayscale").executes(ctx->sendShaderActivity(ctx,false,"interdimensionallib:grayscale"))
+                .then(literal("remove").then(argument("targets", EntityArgumentType.players()).then(argument("name", StringArgumentType.greedyString())
+                        .suggests(INTERDIM_ServerCommandHandler::suggestShaders)
+                        .executes(ctx->sendShaderActivity(ctx,false))
                 )))
         );
     }

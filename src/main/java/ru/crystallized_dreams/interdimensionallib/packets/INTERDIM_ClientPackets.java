@@ -7,6 +7,7 @@ import ru.crystallized_dreams.interdimensionallib.client.ClientInputManager;
 import ru.crystallized_dreams.interdimensionallib.client.render.ClientRendererConfig;
 import ru.crystallized_dreams.interdimensionallib.client.render.ScreenShakeHandler;
 import ru.crystallized_dreams.interdimensionallib.client.render.shader.ShaderHandler;
+import ru.crystallized_dreams.interdimensionallib.client.render.shader.ShaderRegistry;
 import ru.crystallized_dreams.interdimensionallib.common.types.Easing;
 import ru.crystallized_dreams.interdimensionallib.packets.all.*;
 
@@ -114,5 +115,15 @@ public class INTERDIM_ClientPackets {
                 context.client().execute(()->ClientCameraState.INSTANCE.setRotation(payload.pitch(), payload.yaw(), payload.roll(), payload.fixed(), payload.time(), Easing.fromId(payload.easing()))));
         ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.SetActive.ID, (payload, context)->
                 context.client().execute(()->ShaderHandler.getInstance().setActive(payload.name(), payload.active())));
+        ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.ClientShaderRequest.ID, (payload, context)->
+                context.client().execute(()->{
+                    ClientPlayNetworking.send(new ShaderPayloads.ClientShaderResponse(ShaderHandler.getInstance().getRegistered()));
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.SetBoolean.ID, (payload, context)->
+                context.client().execute(()->ShaderHandler.getInstance().setUniform(payload.name(), payload.uniform(), payload.value())));
+        ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.SetInteger.ID, (payload, context)->
+                context.client().execute(()->ShaderHandler.getInstance().setUniform(payload.name(), payload.uniform(), payload.value())));
+        ClientPlayNetworking.registerGlobalReceiver(ShaderPayloads.SetFloat.ID, (payload, context)->
+                context.client().execute(()->ShaderHandler.getInstance().setUniform(payload.name(), payload.uniform(), payload.value())));
     }
 }
