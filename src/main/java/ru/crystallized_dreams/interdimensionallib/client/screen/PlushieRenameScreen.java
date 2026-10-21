@@ -40,7 +40,9 @@ public class PlushieRenameScreen extends Screen {
         addDrawableChild(ButtonWidget.builder(
                 Text.translatable(wide ? "text.interdimensionallib.plushie_screen.wide_arms" :
                         "text.interdimensionallib.plushie_screen.slim_arms"),
-                btn -> { wide = !wide; btn.setMessage(Text.literal(wide ? "Arms: Wide" : "Arms: Slim")); }
+                btn -> { wide = !wide; btn.setMessage(
+                        Text.translatable(wide ? "text.interdimensionallib.plushie_screen.wide_arms" :
+                                "text.interdimensionallib.plushie_screen.slim_arms")); }
         ).dimensions(centerX-60, centerY+5, 120, 20).build());
 
         addDrawableChild(ButtonWidget.builder(Text.translatable("text.interdimensionallib.plushie_screen.confirm"), btn -> {
@@ -49,10 +51,10 @@ public class PlushieRenameScreen extends Screen {
 
             ClientPlayNetworking.send(new UpdatePlushiePayload(name, wide));
             close();
-        }).dimensions(centerX-60, centerY+35, 55, 20).build());
+        }).dimensions(centerX+5, centerY+35, 55, 20).build());
 
         addDrawableChild(ButtonWidget.builder(Text.translatable("text.interdimensionallib.plushie_screen.cancel"),
-                        btn -> close()).dimensions(centerX+5, centerY+35, 55, 20).build());
+                        btn -> close()).dimensions(centerX-60, centerY+35, 55, 20).build());
     }
 
     @Override
