@@ -11,7 +11,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_BlockEntities;
-import ru.crystallized_dreams.interdimensionallib.content.block.PlushieBlock;
+import ru.crystallized_dreams.interdimensionallib.content.block.RenameablePlushieBlock;
 import ru.crystallized_dreams.interdimensionallib.content.component.PlushieData;
 
 public class PlushieBlockEntity extends BlockEntity {
@@ -25,7 +25,7 @@ public class PlushieBlockEntity extends BlockEntity {
         this.data = data;
         markDirty();
         if (world!=null && !world.isClient) {
-            world.setBlockState(pos, getCachedState().with(PlushieBlock.WIDE, data.wide()), Block.NOTIFY_ALL);
+            world.setBlockState(pos, getCachedState().with(RenameablePlushieBlock.WIDE, data.wide()), Block.NOTIFY_ALL);
             world.updateListeners(pos, world.getBlockState(getPos()), world.getBlockState(getPos()), Block.NOTIFY_ALL);
         }
     }

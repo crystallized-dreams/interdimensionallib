@@ -15,6 +15,7 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -534,5 +535,18 @@ public class INTERDIM_ServerCommandHandler {
                         .executes(ctx->sendShaderActivity(ctx,false))
                 )))
         );
+        dispatcher.register(literal("dumpNbt").executes(ctx->{
+            if (ctx.getSource().getPlayer()==null) return 1;
+            var player=ctx.getSource().getPlayer();
+            var stack=player.getMainHandStack();
+            if (stack.isEmpty()) return 2;
+            player.sendMessage(Text.literal(stack.getComponents().toString()),false);
+            MinecraftServer server=player.getServer();
+            server.getCommandManager().executeWithPrefix(server.getCommandSource(),
+                    "/tellraw "+player.getUuid().toString()+
+                            " [{\"text\":\"Click to copy\",\"underlined\":true,\"color\":\"#ffff00\",\"clickEvent\":{\"action\":\"copy_to_clipboard\",\"value\":\""+
+                            stack.getComponents().toString().replace("\"","\\\"")+"\"}}]");
+            return 0;
+        }));
     }
 }

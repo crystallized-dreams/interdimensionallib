@@ -12,10 +12,12 @@ import net.minecraft.world.World;
 import ru.crystallized_dreams.interdimensionallib.client.render.ClientCameraState;
 import ru.crystallized_dreams.interdimensionallib.client.render.ClientRendererConfig;
 import ru.crystallized_dreams.interdimensionallib.client.render.ScreenShakeHandler;
+import ru.crystallized_dreams.interdimensionallib.client.render.block_entity.PlushieBlockEntityRenderer;
 import ru.crystallized_dreams.interdimensionallib.client.render.shader.ShaderRegistry;
 import ru.crystallized_dreams.interdimensionallib.client.render.shader.ShaderReloadListener;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_Particles;
 import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ClientModConfig;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_BlockEntities;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Blocks;
 import ru.crystallized_dreams.interdimensionallib.packets.INTERDIM_ClientPackets;
 
@@ -64,5 +66,7 @@ public class InterdimensionalLibClient implements ClientModInitializer {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES)
                 .registerReloadListener(new ShaderReloadListener());
         INTERDIM_Blocks.regAllRenderers();
+        INTERDIM_BlockEntities.regAllRenderers();
+        PlushieBlockEntityRenderer.preloadModels();
     }
 }

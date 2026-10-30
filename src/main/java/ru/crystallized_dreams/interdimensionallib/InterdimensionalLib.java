@@ -11,11 +11,8 @@ import org.slf4j.LoggerFactory;
 import ru.crystallized_dreams.interdimensionallib.common.HelperTags;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_ServerCommandHandler;
 import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ModConfig;
-import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_BlockEntities;
-import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Blocks;
-import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
+import ru.crystallized_dreams.interdimensionallib.content.*;
 import ru.crystallized_dreams.interdimensionallib.packets.INTERDIM_ServerPackets;
-import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Recipes;
 import ru.crystallized_dreams.interdimensionallib.packets.all.ShaderPayloads;
 
 public class InterdimensionalLib implements ModInitializer {
@@ -37,6 +34,7 @@ public class InterdimensionalLib implements ModInitializer {
 		INTERDIM_Blocks.regAll();
 		INTERDIM_BlockEntities.regAll();
 		HelperTags.regAll();
+		INTERDIM_Items.regAll();
 		ServerLifecycleEvents.SERVER_STOPPED.register(s->{
 			INTERDIM_ModConfig.INSTANCE.save();
 		});

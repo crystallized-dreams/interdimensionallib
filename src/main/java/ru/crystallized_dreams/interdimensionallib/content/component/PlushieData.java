@@ -20,4 +20,8 @@ public record PlushieData(String nickname, boolean wide) {
             );
 
     public static final PlushieData DEFAULT = new PlushieData("Steve", true);
+
+    public boolean isBlank() {
+        return nickname == null || nickname.isBlank();
+    }
 }

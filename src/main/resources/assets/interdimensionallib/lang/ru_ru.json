@@ -20,10 +20,16 @@
   "block.interdimensionallib.wall_of_clouds_plushie": "WallofClouds",
   "block.interdimensionallib.fort_kirill_plushie": "Fort_kirll",
 
+  "item.interdimensionallib.command_executor": "Командный исполнитель",
+  "item.interdimensionallib.command_executor.button": "Командная кнопка",
+  "item.interdimensionallib.command_executor.lever": "Командный переключатель",
+  "item.interdimensionallib.command_executor.joystick": "Командный джойстик",
+
   "text.interdimensionallib.plushie_screen.title": "Редактировать плюшевую игрушку",
   "text.interdimensionallib.plushie_screen.nickname": "Имя игрока",
   "text.interdimensionallib.plushie_screen.wide_arms": "Руки: Классические",
   "text.interdimensionallib.plushie_screen.slim_arms": "Руки: Худые",
   "text.interdimensionallib.plushie_screen.confirm": "Подтвердить",
-  "text.interdimensionallib.plushie_screen.cancel": "Отмена"
+  "text.interdimensionallib.plushie_screen.cancel": "Отмена",
+  "text.interdimensionallib.command_executor_hint": "Может хранить до 4 команд и выполнять их при совершении определённых действий"
 }

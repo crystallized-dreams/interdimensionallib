@@ -31,7 +31,7 @@ import ru.crystallized_dreams.interdimensionallib.content.component.PlushieData;
 
 import java.util.List;
 
-public class PlushieBlock extends BlockWithEntity {
+public class RenameablePlushieBlock extends BlockWithEntity {
     public static final DirectionProperty FACING=Properties.HORIZONTAL_FACING;
     public static final BooleanProperty WIDE=BooleanProperty.of("wide");
     public static final VoxelShape COLLIDER=Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
@@ -39,12 +39,12 @@ public class PlushieBlock extends BlockWithEntity {
     public int clicksLastMS;
     public long lastMSTime;
 
-    public PlushieBlock(Settings settings) {
+    public RenameablePlushieBlock(Settings settings) {
         super(settings.nonOpaque());
         this.clown=false;
     }
 
-    public PlushieBlock(Settings settings, boolean clown) {
+    public RenameablePlushieBlock(Settings settings, boolean clown) {
         super(settings.nonOpaque());
         this.clown=clown;
         clicksLastMS=0;
@@ -53,7 +53,7 @@ public class PlushieBlock extends BlockWithEntity {
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return createCodec(PlushieBlock::new);
+        return createCodec(RenameablePlushieBlock::new);
     }
 
     @Override
@@ -62,11 +62,6 @@ public class PlushieBlock extends BlockWithEntity {
         PlushieData data=stack.get(INTERDIM_DataComponents.PLUSHIE_DATA);
         if(data==null) tooltip.add(Text.translatable(super.getTranslationKey()).formatted(Formatting.GRAY));
         else tooltip.add(Text.literal(data.nickname()).formatted(Formatting.GRAY));
-    }
-
-    @Override
-    public String getTranslationKey() {
-        return "block.interdimensionallib.plushie";
     }
 
     @Override
@@ -97,7 +92,7 @@ public class PlushieBlock extends BlockWithEntity {
                     0.7f, 1 + world.random.nextFloat() * 0.25f);
         }
         if (clown) {
-            if (System.currentTimeMillis() - 200 > lastMSTime) {
+            if (System.currentTimeMillis() - 300 > lastMSTime) {
                 lastMSTime = System.currentTimeMillis();
                 clicksLastMS = 1;
             } else {
@@ -143,6 +138,6 @@ public class PlushieBlock extends BlockWithEntity {
 
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 }
