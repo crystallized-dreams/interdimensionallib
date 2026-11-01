@@ -2,7 +2,7 @@
   "targets": [],
   "passes": [
     {
-      "program": "grayscale",
+      "program": "interdimensionallib:grayscale",
       "input": "minecraft:main",
       "output": "minecraft:main"
     }

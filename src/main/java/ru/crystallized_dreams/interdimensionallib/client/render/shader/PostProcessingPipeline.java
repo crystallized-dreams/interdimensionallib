@@ -81,11 +81,16 @@ public class PostProcessingPipeline implements AutoCloseable {
             for (JsonElement passEl : passesArray) {
                 JsonObject passObj=passEl.getAsJsonObject();
                 String programName=passObj.get("program").getAsString();
+                if (!programName.contains(":")) {
+                    InterdimensionalLib.LOGGER.error("[INTERDIM_CLIENT]: Invalid program name '{}' (can't parse identifier)", programName);
+                    return;
+                }
+                String namespace=programName.split(":")[0];
                 String input=passObj.has("input") ? passObj.get("input").getAsString() : "minecraft:main";
                 String output=passObj.has("output") ? passObj.get("output").getAsString() : "minecraft:main";
 
-                Identifier vsh=Identifier.of(InterdimensionalLib.MOD_ID, "shaders/program/" + programName + ".vsh");
-                Identifier fsh=Identifier.of(InterdimensionalLib.MOD_ID, "shaders/program/" + programName + ".fsh");
+                Identifier vsh=Identifier.of(namespace, "shaders/program/" + programName + ".vsh");
+                Identifier fsh=Identifier.of(namespace, "shaders/program/" + programName + ".fsh");
                 ShaderProgram program=ShaderProgram.create("post_" + programName, vsh, fsh);
                 PostPass pass=new PostPass(program, input, output);
 
