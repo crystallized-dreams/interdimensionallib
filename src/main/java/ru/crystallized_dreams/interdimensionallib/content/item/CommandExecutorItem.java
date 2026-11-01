@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,6 +16,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import ru.crystallized_dreams.interdimensionallib.InterdimensionalLib;
+import ru.crystallized_dreams.interdimensionallib.client.screen.INTERDIM_ScreenHandler;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
 import ru.crystallized_dreams.interdimensionallib.content.component.CommandExecutorData;
 
@@ -26,11 +29,25 @@ public class CommandExecutorItem extends ItemWithHint {
         super(settings);
     }
 
+    public static String getName(int type) {
+        return switch (type) {
+            case 0->"item.interdimensionallib.command_executor.button";
+            case 1->"item.interdimensionallib.command_executor.lever";
+            case 2->"item.interdimensionallib.command_executor.joystick";
+            default -> "the greatest controller type. idk what this is";
+        };
+    }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         var stack=player.getStackInHand(hand);
         if (player.getItemCooldownManager().isCoolingDown(this)) return TypedActionResult.fail(stack);
-        if (world.isClient()) return TypedActionResult.success(player.getStackInHand(hand), false);
+        if (world.isClient()) {
+            if (player.isSneaking()) INTERDIM_ScreenHandler.openCommandExecutorEditorScreen(
+                    stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, CommandExecutorData.DEFAULT));
+            return TypedActionResult.success(player.getStackInHand(hand), false);
+        }
+        if (player.isSneaking()) return TypedActionResult.success(stack);
         var data=stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, CommandExecutorData.DEFAULT);
         ServerPlayerEntity user=(ServerPlayerEntity)player;
         ServerWorld serverWorld=(ServerWorld)player.getWorld();
@@ -51,9 +68,12 @@ public class CommandExecutorItem extends ItemWithHint {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (entity instanceof ServerPlayerEntity player) {
-            if (curCooldown<=0) return;
+            if (curCooldown>0) {
+                curCooldown--;
+                return;
+            }
             var data=stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, CommandExecutorData.DEFAULT);
-            if (data.controllerType()==1&&data.pressed()==1) {
+            if (data.controllerType()==1 && data.pressed()==1) {
                 executeCommand((ServerWorld)world, player, data.commands().getFirst());
                 curCooldown=3;
             }
@@ -66,20 +86,20 @@ public class CommandExecutorItem extends ItemWithHint {
 
     @Override
     public void beforeHint(ItemStack stack, TooltipContext ctx, List<Text> tooltip) {
-        tooltip.add(Text.translatable(switch (stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA,
-                CommandExecutorData.DEFAULT).controllerType()) {
-            case 0->"item.interdimensionallib.command_executor.button";
-            case 1->"item.interdimensionallib.command_executor.lever";
-            case 2->"item.interdimensionallib.command_executor.joystick";
-            default -> super.getTranslationKey();
-        }).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(getName(stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA,
+                CommandExecutorData.DEFAULT).controllerType())).formatted(Formatting.GRAY));
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext ctx, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, ctx, tooltip, type);
+        if(stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, CommandExecutorData.DEFAULT).controllerType()==2)
+            tooltip.add(Text.translatable("text.interdimensionallib.command_controller_wip").formatted(Formatting.RED));
     }
 
     @Override
     public void showHint(ItemStack stack, TooltipContext ctx, List<Text> tooltip) {
         tooltip.add(Text.translatable("text.interdimensionallib.command_executor_hint").formatted(Formatting.GRAY));
-        if(stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, CommandExecutorData.DEFAULT).controllerType()==2)
-            tooltip.add(Text.translatable("text.interdimensionallib.command_controller_wip").formatted(Formatting.RED));
     }
 
     @Override

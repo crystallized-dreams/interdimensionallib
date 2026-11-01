@@ -7,7 +7,9 @@ import net.minecraft.util.Identifier;
 import ru.crystallized_dreams.interdimensionallib.InterdimensionalLib;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_ServerCommandHandler;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
+import ru.crystallized_dreams.interdimensionallib.content.component.CommandExecutorData;
 import ru.crystallized_dreams.interdimensionallib.content.component.PlushieData;
+import ru.crystallized_dreams.interdimensionallib.content.item.CommandExecutorItem;
 import ru.crystallized_dreams.interdimensionallib.content.item.PlushieBlockItem;
 import ru.crystallized_dreams.interdimensionallib.packets.all.*;
 
@@ -34,10 +36,12 @@ public class INTERDIM_ServerPackets {
     public static final Identifier SHADER_CLIENT_REQUEST_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "shader_client_request");
     public static final Identifier SHADER_CLIENT_RESPONSE_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "shader_client_response");
     public static final Identifier UPDATE_PLUSHIE_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "update_plushie");
+    public static final Identifier UPDATE_COMMAND_EXECUTOR_PACKET = Identifier.of(InterdimensionalLib.MOD_ID, "update_cmd_exec");
     public static void regAll() {
         PayloadTypeRegistry.playC2S().register(GRIP.ID, GRIP.CODEC);
         PayloadTypeRegistry.playC2S().register(ShaderPayloads.ClientShaderResponse.ID, ShaderPayloads.ClientShaderResponse.CODEC);
         PayloadTypeRegistry.playC2S().register(UpdatePlushiePayload.ID, UpdatePlushiePayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(UpdateCommandExecutorPayload.ID, UpdateCommandExecutorPayload.CODEC);
         InterdimensionalLib.LOGGER.info("[INTERDIM]: Registered client packet payloads (C2S)");
         PayloadTypeRegistry.playS2C().register(ScreenShakePayload.ID, ScreenShakePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(GuiDisplayChangePayload.ID, GuiDisplayChangePayload.CODEC);
@@ -75,6 +79,15 @@ public class INTERDIM_ServerPackets {
                 ItemStack stack = player.getMainHandStack();
                 if (stack.getItem() instanceof PlushieBlockItem) stack.set(INTERDIM_DataComponents.PLUSHIE_DATA, newData);
             })
+        );
+        ServerPlayNetworking.registerGlobalReceiver(UpdateCommandExecutorPayload.ID, (payload, ctx)->
+                ctx.server().execute(() -> {
+                    var player = ctx.player();
+                    if (player == null) return;
+                    CommandExecutorData newData = new CommandExecutorData(payload.commands(), payload.type(), 0);
+                    ItemStack stack = player.getMainHandStack();
+                    if (stack.getItem() instanceof CommandExecutorItem) stack.set(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA, newData);
+                })
         );
         InterdimensionalLib.LOGGER.info("[INTERDIM]: Registered server packet receivers");
     }

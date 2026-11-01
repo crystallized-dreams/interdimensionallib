@@ -7,6 +7,7 @@
     "client.BackgroundRendererMixin",
     "client.BossBarHudMixin",
     "client.CameraMixin",
+    "client.ChatInputSuggestorMixin",
     "client.ClientPlayerEntityMixin",
     "client.ClientWorldMixin",
     "client.DebugHudMixin",

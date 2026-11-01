@@ -17,18 +17,19 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import ru.crystallized_dreams.interdimensionallib.InterdimensionalLib;
 import ru.crystallized_dreams.interdimensionallib.content.block.BarrierPaneBlock;
+import ru.crystallized_dreams.interdimensionallib.content.block.PlushieBlock;
 import ru.crystallized_dreams.interdimensionallib.content.block.RenameablePlushieBlock;
 import ru.crystallized_dreams.interdimensionallib.content.item.PlushieBlockItem;
 
 public class INTERDIM_Blocks {
     public static final Block BATOONTECH_PLUSHIE=regBlock("batoontech_plushie",
-            new RenameablePlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
+            new PlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
     public static final Block WALL_OF_CLOUDS_PLUSHIE=regBlock("wall_of_clouds_plushie",
-            new RenameablePlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
+            new PlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
     public static final Block ALEX_ALABAI_PLUSHIE=regBlock("alex_alabai_plushie",
-            new RenameablePlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
+            new PlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL)));
     public static final Block FORT_KIRILL_PLUSHIE=regBlock("fort_kirill_plushie",
-            new RenameablePlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL),true));
+            new PlushieBlock(AbstractBlock.Settings.copy(Blocks.BLACK_WOOL),true));
     public static final Block PLUSHIE=regBlockWithoutItem("plushie",
             new RenameablePlushieBlock(AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)));
     public static final Block BARRIER_PANE=regBlockWithoutItem("barrier_pane",

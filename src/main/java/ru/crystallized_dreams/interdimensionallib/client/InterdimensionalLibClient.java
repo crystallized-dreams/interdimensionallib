@@ -19,6 +19,7 @@ import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_Particles;
 import ru.crystallized_dreams.interdimensionallib.config.INTERDIM_ClientModConfig;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_BlockEntities;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Blocks;
+import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_Items;
 import ru.crystallized_dreams.interdimensionallib.packets.INTERDIM_ClientPackets;
 
 public class InterdimensionalLibClient implements ClientModInitializer {
@@ -67,6 +68,7 @@ public class InterdimensionalLibClient implements ClientModInitializer {
                 .registerReloadListener(new ShaderReloadListener());
         INTERDIM_Blocks.regAllRenderers();
         INTERDIM_BlockEntities.regAllRenderers();
+        INTERDIM_Items.regPredicates();
         PlushieBlockEntityRenderer.preloadModels();
     }
 }

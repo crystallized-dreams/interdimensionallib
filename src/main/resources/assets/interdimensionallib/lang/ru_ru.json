@@ -31,5 +31,8 @@
   "text.interdimensionallib.plushie_screen.slim_arms": "Руки: Худые",
   "text.interdimensionallib.plushie_screen.confirm": "Подтвердить",
   "text.interdimensionallib.plushie_screen.cancel": "Отмена",
-  "text.interdimensionallib.command_executor_hint": "Может хранить до 4 команд и выполнять их при совершении определённых действий"
+  "text.interdimensionallib.command_executor_hint": "Может хранить до 4 команд и выполнять их при совершении определённых действий",
+  "text.interdimensionallib.command_controller_wip": "Не работает пока что",
+  "text.interdimensionallib.command_executor_editor.title": "Редактор командного исполнителя",
+  "text.interdimensionallib.command_executor_editor.command": "Команда"
 }

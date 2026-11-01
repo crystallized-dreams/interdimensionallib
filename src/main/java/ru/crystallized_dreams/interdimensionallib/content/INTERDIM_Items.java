@@ -1,6 +1,9 @@
 package ru.crystallized_dreams.interdimensionallib.content;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -31,5 +34,15 @@ public class INTERDIM_Items {
 
     public static Item regItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(InterdimensionalLib.MOD_ID, name), item);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void regPredicates() {
+        ModelPredicateProviderRegistry.register(INTERDIM_Items.COMMAND_EXECUTOR, Identifier.of(InterdimensionalLib.MOD_ID,"controller_type"),
+                (stack, world, entity, seed)->{
+            var data=stack.getOrDefault(INTERDIM_DataComponents.COMMAND_EXECUTOR_DATA,CommandExecutorData.DEFAULT);
+            if (data.controllerType()==1 && data.pressed()==1) return 0.3f;
+            return (float)data.controllerType()/10.f;
+        });
     }
 }

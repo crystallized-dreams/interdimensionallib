@@ -32,5 +32,7 @@
   "text.interdimensionallib.plushie_screen.confirm": "Confirm",
   "text.interdimensionallib.plushie_screen.cancel": "Cancel",
   "text.interdimensionallib.command_executor_hint": "Can store up to 4 commands and execute them on specific actions",
-  "text.interdimensionallib.command_controller_wip": "Doesn't currently work"
+  "text.interdimensionallib.command_controller_wip": "Doesn't currently work",
+  "text.interdimensionallib.command_executor_editor.title": "Command Executor Editor",
+  "text.interdimensionallib.command_executor_editor.command": "Command"
 }

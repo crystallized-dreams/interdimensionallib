@@ -1,6 +1,7 @@
 package ru.crystallized_dreams.interdimensionallib.content.block;
 
 
+import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,7 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -23,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import ru.crystallized_dreams.interdimensionallib.common.INTERDIM_Sounds;
 import ru.crystallized_dreams.interdimensionallib.content.INTERDIM_DataComponents;
@@ -34,21 +39,10 @@ import java.util.List;
 public class RenameablePlushieBlock extends BlockWithEntity {
     public static final DirectionProperty FACING=Properties.HORIZONTAL_FACING;
     public static final BooleanProperty WIDE=BooleanProperty.of("wide");
-    public static final VoxelShape COLLIDER=Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
-    private final boolean clown;
-    public int clicksLastMS;
-    public long lastMSTime;
+    public static final VoxelShape SHAPE=Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
 
     public RenameablePlushieBlock(Settings settings) {
         super(settings.nonOpaque());
-        this.clown=false;
-    }
-
-    public RenameablePlushieBlock(Settings settings, boolean clown) {
-        super(settings.nonOpaque());
-        this.clown=clown;
-        clicksLastMS=0;
-        lastMSTime=0L;
     }
 
     @Override
@@ -66,11 +60,11 @@ public class RenameablePlushieBlock extends BlockWithEntity {
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return COLLIDER;
+        return SHAPE;
     }
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return COLLIDER;
+        return SHAPE;
     }
 
     @Override
@@ -87,26 +81,8 @@ public class RenameablePlushieBlock extends BlockWithEntity {
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!world.isClient()) {
-            world.playSound(null, pos, clown ? INTERDIM_Sounds.BLOCK_PLUSHIE_CLOWN_CLICK_SOUND
-                    : INTERDIM_Sounds.BLOCK_PLUSHIE_CLICK_SOUND, SoundCategory.PLAYERS,
+            world.playSound(null, pos, INTERDIM_Sounds.BLOCK_PLUSHIE_CLICK_SOUND, SoundCategory.PLAYERS,
                     0.7f, 1 + world.random.nextFloat() * 0.25f);
-        }
-        if (clown) {
-            if (System.currentTimeMillis() - 300 > lastMSTime) {
-                lastMSTime = System.currentTimeMillis();
-                clicksLastMS = 1;
-            } else {
-                lastMSTime = System.currentTimeMillis();
-                clicksLastMS++;
-            }
-
-            if (clicksLastMS >= 50) {
-                world.createExplosion(null, null, null,
-                        pos.getX(), pos.getY(), pos.getZ(),
-                        3.F, false, World.ExplosionSourceType.TNT);
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
-                return ActionResult.SUCCESS;
-            }
         }
         return super.onUse(state, world, pos, player, hit);
     }

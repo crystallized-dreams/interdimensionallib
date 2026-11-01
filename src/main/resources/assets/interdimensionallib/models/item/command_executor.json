@@ -1,0 +1,29 @@
+{
+  "parent": "interdimensionallib:item/command_button",
+  "overrides": [
+    {
+      "model": "interdimensionallib:item/command_button",
+      "predicate": {
+        "interdimensionallib:controller_type": 0.0
+      }
+    },
+    {
+      "model": "interdimensionallib:item/command_lever",
+      "predicate": {
+        "interdimensionallib:controller_type": 0.1
+      }
+    },
+    {
+      "model": "interdimensionallib:item/command_joystick",
+      "predicate": {
+        "interdimensionallib:controller_type": 0.2
+      }
+    },
+	{
+      "model": "interdimensionallib:item/command_lever_active",
+      "predicate": {
+        "interdimensionallib:controller_type": 0.3
+      }
+    }
+  ]
+}
