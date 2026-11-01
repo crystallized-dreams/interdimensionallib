@@ -32,9 +32,7 @@ public class ShaderHandler {
     private ShaderHandler() {}
 
     public static ShaderHandler getInstance() {
-        if (INSTANCE==null) {
-            INSTANCE=new ShaderHandler();
-        }
+        if (INSTANCE==null) INSTANCE=new ShaderHandler();
         return INSTANCE;
     }
 
@@ -158,8 +156,8 @@ public class ShaderHandler {
                     }
                     case WORLD -> {
                         ShaderProgram worldShader=ShaderProgram.create(entry.name(),
-                                Identifier.of(InterdimensionalLib.MOD_ID, "shaders/program/" + entry.name() + ".vsh"),
-                                Identifier.of(InterdimensionalLib.MOD_ID, "shaders/program/" + entry.name() + ".fsh")
+                                Identifier.of(entry.location().getNamespace(), "shaders/program/" + entry.name() + ".vsh"),
+                                Identifier.of(entry.location().getNamespace(), "shaders/program/" + entry.name() + ".fsh")
                         );
                         worldShader.setActive(isEnabled);
                         activeWorldShaders.add(worldShader);

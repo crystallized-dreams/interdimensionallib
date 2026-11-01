@@ -10,16 +10,16 @@ public class ShaderRegistry {
                 ShaderHandler.ShaderType.POST_PROCESSING);
     }
 
-    public static void registerPostShader(String modId, String name, Identifier configPath) {
-        register(modId, name, configPath, ShaderHandler.ShaderType.POST_PROCESSING);
+    public static void registerPostShader(String modId, String name) {
+        register(modId, name, ShaderHandler.ShaderType.POST_PROCESSING);
     }
 
-    public static void registerWorldShader(String modId, String name, Identifier configPath) {
-        register(modId, name, configPath, ShaderHandler.ShaderType.WORLD);
+    public static void registerWorldShader(String modId, String name) {
+        register(modId, name, ShaderHandler.ShaderType.WORLD);
     }
 
-    public static void register(String modId, String name, Identifier configPath, ShaderHandler.ShaderType type) {
+    public static void register(String modId, String name, ShaderHandler.ShaderType type) {
         ShaderHandler.getInstance().register(modId + ":" + name,
-                configPath, type);
+                Identifier.of(modId, "shaders/post/"+name+".json"), type);
     }
 }
